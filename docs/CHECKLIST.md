@@ -6,7 +6,7 @@ Legend: `[x]` starter exists; `[ ]` still needs a teammate to complete and valid
 - **JC / [JCarloZ24](https://github.com/JCarloZ24):** UI/UX and frontend, wireframes/components/routes, responsive/accessibility work and employee/client views.
 - **[Stobeeney](https://github.com/Stobeeney):** API integration, contracts/shared models, endpoint and page-data wiring, Proyekto/Velo API connections and durable domain records.
 - **[aidantiu](https://github.com/aidantiu):** end-to-end integration and deployment, CI/environment/hosting configuration and deployed web/server/webhook verification.
-- **[JoshuaHM-p4](https://github.com/JoshuaHM-p4):** Noir agent/payment safety, Testnet proof and final product/security review; supports integration and release.
+- **[JoshuaHM-p4](https://github.com/JoshuaHM-p4):** Own all Noir integration setup, development and testing—from the current starter through the complete owner-approved Testnet workflow: SDK/network/contract verification; wallet/device/policy/escrow setup; check/authorize and separate merchant claim; payment safeguards, negative tests, reconciliation and genuine Testnet proof. Retain bank-facility feasibility and final product/security review; coordinate API work with Stobeeney and integration/deployment with Aidantiu.
 
 Assignments are soft ownership, not changes to repository access or signing authority. See [TEAM](TEAM.md).
 

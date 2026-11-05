@@ -10,7 +10,7 @@ From verified deliverables to streamlined payouts. One platform for teams, clien
 
 **Live website:** `TBD — public deployment required`  
 **Demo video (2 min):** `TBD`  
-**Team:** [JCarloZ24 (JC)](https://github.com/JCarloZ24) (UI/UX + Frontend), [Stobeeney](https://github.com/Stobeeney) (API Integration), [aidantiu](https://github.com/aidantiu) (Integration + Deployment), [JoshuaHM-p4](https://github.com/JoshuaHM-p4) (Founder/Fullstack). **Discord handles:** TBD (do not guess).
+**Team:** [JCarloZ24 (JC)](https://github.com/JCarloZ24) (UI/UX + Frontend), [Stobeeney](https://github.com/Stobeeney) (API Integration), [aidantiu](https://github.com/aidantiu) (Integration + Deployment), [JoshuaHM-p4](https://github.com/JoshuaHM-p4) (Founder/Fullstack + Noir Setup, Development & Testing). **Discord handles:** TBD (do not guess).
 
 ## Problem
 In our small digital services company, the consultant/owner reviews hours per employee and project for **1–15 and 16–end-of-month** cutoffs. He then opens the bank, copies each employee's account details and pay amount, sends the transfer and completes the bank's authorization steps—one employee at a time. That repetitive disbursement is the main bottleneck.

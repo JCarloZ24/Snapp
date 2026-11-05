@@ -45,6 +45,9 @@ The **Nov 5 handbook + public Noir repository contracts.md** instead give the ID
 
 ## Noir SDK path — pre-funded Testnet escrow, not bank payroll
 Use Noir SDK only; no substitute contracts or direct custom payment path. Existing adapter calls do not implement the approved-run boundary above.
+
+Primary owner: JoshuaHM-p4 owns Noir SDK/configuration setup, integration development, owner setup and merchant claim tooling, negative/integration tests and controlled live Testnet proof, from the current adapter through the target approved-run workflow. Stobeeney owns API coordination and Aidantiu owns integration/deployment. These assignments do not change signing authority or implementation status; see [TEAM](TEAM.md).
+
 - Owner setup: `registerDevice`, `registerAgent`, `fundEscrow` (owner signs); escrow is independently pre-funded, not funded by Velo checkout.
 - Agent path: app must bind the exact approved recipient/amount/asset item and enforce run constraints, then `checkPayment` and `authorizePayment` (agent signs) via [packages/agent/src/noir.ts](../packages/agent/src/noir.ts).
 - Merchant path: `claim` (merchant signs); persist authorization and claim evidence separately. Claim may aggregate pending merchant payments, so reconcile actual claim evidence to items rather than assume one claim equals one item. Authorization alone is not receipt, a PHP bank transfer or legal wage settlement.
