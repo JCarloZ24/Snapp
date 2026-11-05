@@ -11,4 +11,4 @@ assert.match(read('apps/server/src/index.ts'),/express\.raw/);
 assert.match(read('apps/server/src/index.ts'),/ALLOWED_MERCHANT_ADDRESSES/);
 assert.match(read('packages/agent/src/noir.ts'),/authorizePayment/);
 assert.match(read('apps/server/src/payments.ts'),/webhooks\.verify/);
-console.log('Cordera scaffold structure and JSON checks passed');
+console.log('Snapp scaffold structure and JSON checks passed');

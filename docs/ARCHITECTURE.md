@@ -19,7 +19,7 @@ flowchart TB
   Velo -->|Verified and reconciled event| Invoice[Client invoice status]
 ```
 
-Proyekto remains the project/client-collaboration and invoicing system; its integration method is not verified. Cordera adds reviewed cutoff calculations, approval and payment traceability. The diagram is a target, not evidence of working integration, bank transfers or pay-run execution.
+Proyekto remains the project/client-collaboration and invoicing system; its integration method is not verified. Snapp adds reviewed cutoff calculations, approval and payment traceability. The diagram is a target, not evidence of working integration, bank transfers or pay-run execution.
 
 The existing source remains a fictional project/milestone preview with JSON demo persistence, Velo adapters and a protected milestone-triggered Noir adapter. It has no cutoff approval snapshot, reviewed-hours workflow, employee statements or Proyekto/bank integration. See [current API limitations](API.md).
 

@@ -1,8 +1,12 @@
-# Cordera
+# Snapp
 
 **Agentic Work Verification & Payment Orchestration**
 
-**One-line pitch:** A Proyekto-connected pay-run layer that links owner-reviewed hours and client-evaluated work to employee-visible pay calculations and controlled payment execution.
+> Pay fast, in a snap.
+
+From verified deliverables to streamlined payouts. One platform for teams, clients, and business owners.
+
+**Repository:** [JoshuaHM-p4/Snapp](https://github.com/JoshuaHM-p4/Snapp)
 
 **Live website:** `TBD — public deployment required`  
 **Demo video (2 min):** `TBD`  
@@ -16,7 +20,7 @@ Employees also lack a clear breakdown to verify pay against hours and rates. The
 The company already uses **Proyekto** for project/client collaboration, documents, roadmaps, Gantt charts and invoicing. Rebuilding those tools is not the solution.
 
 ## Solution
-Cordera targets cutoff preparation, manual owner review, employee pay transparency and approved-run execution alongside Proyekto. Milestones bundle task/deliverable evidence and client evaluations; they are not the default unit of hourly employee pay. The owner retains hours review and final release authority. The agent cannot set wages or change approved recipients and amounts.
+Snapp targets cutoff preparation, manual owner review, employee pay transparency and approved-run execution alongside Proyekto. Milestones bundle task/deliverable evidence and client evaluations; they are not the default unit of hourly employee pay. The owner retains hours review and final release authority. The agent cannot set wages or change approved recipients and amounts.
 
 **Current status:** the source is still a fictional, milestone-oriented starter with preview and payment adapters. Proyekto integration, cutoff review, client-evaluation history, employee statements, approved-run execution and bank payouts are **not implemented**. Live transaction proof has not been produced.
 

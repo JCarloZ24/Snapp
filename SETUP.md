@@ -1,9 +1,9 @@
-# SETUP.md — Cordera starter and coding-agent onboarding
+# SETUP.md — Snapp starter and coding-agent onboarding
 
 **Start here.** This README companion helps four human contributors and coding agents share a safe, repeatable project setup.
 
 ## Product scope before setup
-Cordera targets **Proyekto-connected cutoff pay runs**, not replacement project management or invoicing. The owner manually reviews hours for 1–15 and 16–end-of-month periods, then approves exact recipients and amounts. Employees should see their own hours/rate/adjustment breakdown and payment results; client evaluations provide versioned work context, not an automatic wage gate.
+Snapp targets **Proyekto-connected cutoff pay runs**, not replacement project management or invoicing. The owner manually reviews hours for 1–15 and 16–end-of-month periods, then approves exact recipients and amounts. Employees should see their own hours/rate/adjustment breakdown and payment results; client evaluations provide versioned work context, not an automatic wage gate.
 
 The current source is still a fictional milestone-oriented starter. This setup does not provision Proyekto sync, cutoff review, client evaluation, employee statements, immutable run approval or bank disbursement. See [PRD](PRD.md) for the target and [API](docs/API.md) for current behavior.
 
@@ -16,9 +16,8 @@ The company's recommended bank-file path requires a verified corporate-bank faci
 
 ## 1. Clone and install
 ```bash
-# Replace with actual public repo URL after Joshua creates it:
-git clone https://github.com/YOUR-ORG/agentpay.git
-cd agentpay
+git clone https://github.com/JoshuaHM-p4/Snapp.git
+cd Snapp
 nvm install && nvm use
 node -v
 npm install   # one root command for every workspace

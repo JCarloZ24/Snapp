@@ -1,7 +1,7 @@
 # Current product and architecture decisions
 
 ## Product boundary: Proyekto-connected cutoff pay runs
-Proyekto remains the project/task/document/client-collaboration and invoicing system. Cordera targets cutoff preparation, owner-reviewed hours, employee calculation visibility and approved-payment traceability. The primary pain is one-by-one bank disbursement, not missing invoice generation. Integration access is not yet verified; the source still implements the earlier milestone-oriented starter.
+Proyekto remains the project/task/document/client-collaboration and invoicing system. Snapp targets cutoff preparation, owner-reviewed hours, employee calculation visibility and approved-payment traceability. The primary pain is one-by-one bank disbursement, not missing invoice generation. Integration access is not yet verified; the source still implements the earlier milestone-oriented starter.
 
 ## Human authority and versioned work context
 The owner retains manual hours review and final release authority for 1–15 and 16–end-of-month cutoffs. Client comments, revision requests and acceptance attach to specific deliverable versions and support review; no automatic work ratings are required. Client acceptance or invoice collection must not automatically gate hours-based employee compensation. Fixed-fee milestone terms are distinct from employment obligations.

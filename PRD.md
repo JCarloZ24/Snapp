@@ -1,11 +1,15 @@
-# Cordera — Product Requirements Document (PRD)
+# Snapp — Product Requirements Document (PRD)
 
 **Agentic Work Verification & Payment Orchestration**
 
-**Product:** Cordera by Prodigitality · **Stage:** Product direction with an existing hackathon starter · **Date:** 2026-11-05 · **Payment implementation boundary:** Stellar Testnet only.
+**Tagline:** Pay fast, in a snap.
+
+From verified deliverables to streamlined payouts. One platform for teams, clients, and business owners.
+
+**Product:** Snapp by Prodigitality · **Stage:** Product direction with an existing hackathon starter · **Date:** 2026-11-05 · **Payment implementation boundary:** Stellar Testnet only.
 
 ## 1. Executive summary
-Cordera is a **Proyekto-connected, owner-approved cutoff pay-run and payment-transparency layer** for a small digital services company. It connects reviewed hours, agreed compensation, actual deliverables, client feedback, employee-visible calculations, and payment records. It does not replace Proyekto's project management or invoicing.
+Snapp is a **Proyekto-connected, owner-approved cutoff pay-run and payment-transparency layer** for a small digital services company. It connects reviewed hours, agreed compensation, actual deliverables, client feedback, employee-visible calculations, and payment records. It does not replace Proyekto's project management or invoicing.
 
 The owner retains manual review of hours and final release authority. Software prepares the cutoff, explains each employee's calculation, and executes only the exact recipients and amounts the owner approved. The primary operational problem is repetitive employee-by-employee bank transfers—not a lack of invoice generation or an autonomous judge of work quality.
 

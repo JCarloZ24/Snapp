@@ -25,7 +25,7 @@ app.get('/api/agent/preview/:projectId',(req,res)=>{const project=getProjects().
 app.post('/api/payments/checkout',auth,async(req,res)=>{if(process.env.DEMO_MODE!=='false')return res.status(409).json({error:'DEMO_MODE is enabled'});
  const {projectId,amountXlm}=req.body??{};const project=getProjects().find(p=>p.id===projectId);
  if(!project||typeof amountXlm!=='string'||!/^\d+(\.\d{1,7})?$/.test(amountXlm)||Number(amountXlm)<=0)return res.status(400).json({error:'Invalid project or XLM amount'});
- try{const base=process.env.PUBLIC_WEB_URL??'http://localhost:5173';const checkout=await createCheckout({description:`Cordera Testnet project ${project.id}`,amountXlm,successUrl:base+'/checkout/success',cancelUrl:base+'/checkout/cancel'});return res.json(checkout);}catch(e){console.error(e);return res.status(502).json({error:'Velo checkout creation failed'});}
+ try{const base=process.env.PUBLIC_WEB_URL??'http://localhost:5173';const checkout=await createCheckout({description:`Snapp Testnet project ${project.id}`,amountXlm,successUrl:base+'/checkout/success',cancelUrl:base+'/checkout/cancel'});return res.json(checkout);}catch(e){console.error(e);return res.status(502).json({error:'Velo checkout creation failed'});}
 });
 // MVP trigger: authorized operator marks verified evidence approved; the agent decides whether to send a Noir payment.
 // IMPORTANT: this JSON-store workflow is a hackathon scaffold and NOT transaction-safe or production-grade.
@@ -47,4 +47,4 @@ app.post('/api/milestones/:projectId/:milestoneId/approve',auth,async(req,res)=>
   catch(e){console.error('Noir submission uncertain, reconcile before retry',e);return res.status(502).json({error:'Authorization failed or uncertain; reconcile chain before retry. PENDING_RECONCILIATION is intentional.'});}
  }catch(e){console.error(e);return res.status(500).json({error:'Unable to process milestone'});}
 });
-const port=Number(process.env.PORT??4000);app.listen(port,()=>console.log(`Cordera server: http://localhost:${port} (Testnet only)`));
+const port=Number(process.env.PORT??4000);app.listen(port,()=>console.log(`Snapp server: http://localhost:${port} (Testnet only)`));

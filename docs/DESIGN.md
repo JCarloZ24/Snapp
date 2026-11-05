@@ -2,10 +2,14 @@
 
 **Status:** Deferred by project owner (2026-11-05). No brand color, typography, logo, illustration, animation, screenshots or visual language should be treated as approved.
 
-**Product name:** Cordera  
+**Product name:** Snapp  
 **Subtitle:** Agentic Work Verification & Payment Orchestration
 
-The product name and subtitle do not approve a logo, palette, typography or other visual identity.
+**Tagline:** Pay fast, in a snap.
+
+**Positioning:** From verified deliverables to streamlined payouts. One platform for teams, clients, and business owners.
+
+The product name, subtitle, tagline and positioning do not approve a logo, palette, typography or other visual identity.
 
 ## Design source of truth
 - Official website reference: https://prodigitality.net/services
@@ -23,7 +27,7 @@ The product name and subtitle do not approve a logo, palette, typography or othe
 The scaffold uses **neutral grayscale UI only**, plainly labeled as a demo. Do not interpret this as final Prodigitality style. Prioritize functional layout, readable data, keyboard accessibility and loading/error states until a visual direction is approved.
 
 ## Functional wireframes — target only, all pending
-These are layout requirements, not implemented pages or approved visual designs. Current dashboard/project previews remain scaffold previews. Cordera complements Proyekto's existing PM and invoicing; linking/importing references is not implemented or verified.
+These are layout requirements, not implemented pages or approved visual designs. Current dashboard/project previews remain scaffold previews. Snapp complements Proyekto's existing PM and invoicing; linking/importing references is not implemented or verified.
 
 | Target frame | Reading order and required controls |
 |---|---|

@@ -1,7 +1,7 @@
 # Software specification
 
 ## Scope and implementation boundary
-Cordera's target is a Proyekto-connected, owner-approved cutoff pay-run and payment-transparency layer, not a replacement project-management or invoicing system. Proyekto references/import, cutoff review, employee statements, immutable run approvals and durable item reconciliation are **not implemented** in this starter. Existing source remains a milestone-based Testnet demonstration; this specification does not upgrade it.
+Snapp's target is a Proyekto-connected, owner-approved cutoff pay-run and payment-transparency layer, not a replacement project-management or invoicing system. Proyekto references/import, cutoff review, employee statements, immutable run approvals and durable item reconciliation are **not implemented** in this starter. Existing source remains a milestone-based Testnet demonstration; this specification does not upgrade it.
 
 Company cutoffs are **1–15** and **16–end-of-month**. The boss retains manual judgment over hours per employee/project and final release authority. Primary value is avoiding repeated recipient/amount copying and separately authorized bank transfers, while making compensation explainable and consolidating actual outputs/client feedback beyond task labels.
 
@@ -32,7 +32,7 @@ Company cutoffs are **1–15** and **16–end-of-month**. The boss retains manua
 - Preserve human dispute resolution, neutral temporary branding and Testnet-only demonstrations. Testnet authorization does not deliver PHP to bank accounts.
 
 ## Env ownership
-`apps/server/.env` for Testnet credentials; `apps/web` only non-secret public config. See `SETUP.md` and server example. Cordera retains the internal root package name `agentpay`, `@agentpay/*` workspace identifiers and existing directory paths; these are technical identifiers, not the product display name.
+`apps/server/.env` for Testnet credentials; `apps/web` only non-secret public config. See `SETUP.md` and server example. Snapp retains the internal root package name `agentpay`, `@agentpay/*` workspace identifiers and existing directory paths; these are technical identifiers, not the product display name.
 
 ## Target domain entities — pending design, not current shared types
 | Entity | Required information / boundary |

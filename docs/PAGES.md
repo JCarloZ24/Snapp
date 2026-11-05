@@ -16,7 +16,7 @@ These are existing scaffold descriptions, not implemented cutoff or payroll capa
 | `/checkout/cancel` | Client | Canceled checkout | Placeholder |
 
 ## Target routes (all pending; require authentication and role scoping)
-Cordera connects payment preparation and transparency to Proyekto; it does not replace Proyekto projects, tasks, docs, progress, roadmaps, Gantt or invoicing. Reference linking/import is proposed, not a verified live integration.
+Snapp connects payment preparation and transparency to Proyekto; it does not replace Proyekto projects, tasks, docs, progress, roadmaps, Gantt or invoicing. Reference linking/import is proposed, not a verified live integration.
 
 | URL | Target role | Required target behavior (not implemented) |
 |---|---|---|

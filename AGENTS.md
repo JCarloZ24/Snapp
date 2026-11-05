@@ -3,7 +3,8 @@
 **Authoritative reading order:** `SETUP.md` → `PRD.md` → `docs/ARCHITECTURE.md` → `docs/INTEGRATIONS.md` → task-specific docs → source code. `CLAUDE.md` points here and adds Claude-specific habits.
 
 ## Product guardrails
-- Build **Cordera for Prodigitality — Agentic Work Verification & Payment Orchestration** as a Proyekto-connected cutoff pay-run and employee pay-transparency layer. Reuse Proyekto project/invoice context; do not rebuild project management or invoicing. New workflows are targets, not features already implemented by the milestone starter.
+- Build **Snapp for Prodigitality — Agentic Work Verification & Payment Orchestration** as a Proyekto-connected cutoff pay-run and employee pay-transparency layer. Reuse Proyekto project/invoice context; do not rebuild project management or invoicing. New workflows are targets, not features already implemented by the milestone starter.
+- Product tagline: **Pay fast, in a snap.** Positioning: **From verified deliverables to streamlined payouts. One platform for teams, clients, and business owners.**
 - The owner manually reviews hours per employee/project for 1–15 and 16–end-of-month cutoffs and approves exact recipients and amounts. The agent cannot set wages, approve hours or modify an approved run; material changes require reapproval.
 - Client comments, revisions and acceptance belong to versioned deliverable evidence. Client acceptance or invoice collection must not automatically gate hours-based employee pay; actual compensation agreements and legal obligations govern.
 - **Do not** invent brand styles. Prodigitality design remains on hold; use neutral UI until `docs/DESIGN.md` is approved.
