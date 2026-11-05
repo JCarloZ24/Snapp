@@ -1,0 +1,23 @@
+{
+  "name": "@agentpay/agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./noir": "./src/noir.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test src/*.test.ts"
+  },
+  "dependencies": {
+    "@agentpay/shared": "*",
+    "@noirx402/agent-sdk": "latest",
+    "@stellar/stellar-sdk": "^16.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

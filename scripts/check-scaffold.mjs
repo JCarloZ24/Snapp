@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+const root=path.resolve(import.meta.dirname,'..');
+const read=(file)=>fs.readFileSync(path.join(root,file),'utf8');
+const pkg=JSON.parse(read('package.json'));
+assert.deepEqual(pkg.workspaces,['apps/*','packages/*']);
+for(const file of ['PRD.md','SETUP.md','AGENTS.md','CLAUDE.md','docs/SOFTWARE.md','docs/ARCHITECTURE.md','docs/DESIGN.md','docs/PAGES.md','docs/UI.md','docs/CHECKLIST.md','docs/TEAM.md','docs/INTEGRATIONS.md','apps/server/src/index.ts','apps/web/src/App.tsx'])assert.ok(read(file).length>50,file);
+for(const file of ['apps/server/package.json','apps/web/package.json','packages/agent/package.json','packages/shared/package.json'])JSON.parse(read(file));
+assert.match(read('apps/server/src/index.ts'),/express\.raw/);
+assert.match(read('apps/server/src/index.ts'),/ALLOWED_MERCHANT_ADDRESSES/);
+assert.match(read('packages/agent/src/noir.ts'),/authorizePayment/);
+assert.match(read('apps/server/src/payments.ts'),/webhooks\.verify/);
+console.log('Cordera scaffold structure and JSON checks passed');
