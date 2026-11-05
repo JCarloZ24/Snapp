@@ -13,7 +13,7 @@ The product name, subtitle, tagline and positioning do not approve a logo, palet
 
 ## Design source of truth
 - Official website reference: https://prodigitality.net/services
-- Product design owner: https://github.com/Stobeeney
+- UI/UX and frontend owner: [JCarloZ24 (JC)](https://github.com/JCarloZ24)
 - Draft all visual decisions as a design proposal; review with founder before merging substantial changes.
 
 ## When styling is authorized

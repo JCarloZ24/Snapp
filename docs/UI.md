@@ -36,7 +36,7 @@ Names and locations describe proposed contracts, not working components. All new
 `Preview` displays sample/proposed decisions without transactions and must not masquerade as implemented pay-run approval. `Real testnet` requires actual transaction evidence; authorization alone does not prove a merchant claim. At-most-once approved-item execution records and immutable run snapshots are pending, not guarantees of the scaffold. If an API is unavailable, show an error with setup hint; never substitute artificial success.
 
 ## Handoff process
-Designer adds approved design tokens/components separately; developer pages consume those components, rather than duplicating raw styles. Founder approves design PR. UI changes can be split by page to minimize merge conflicts.
+JC ([JCarloZ24](https://github.com/JCarloZ24)) owns UI/UX and frontend, including approved design tokens and reusable components; pages consume those components rather than duplicating raw styles. Stobeeney owns API contracts/integration and coordinates page data wiring with JC. Aidantiu owns end-to-end integration and deployment. Founder approves design PRs; visual branding remains on hold until approved. Split UI changes by page when useful to minimize merge conflicts.
 
 ## Integration scope references
 - [Velo upstream release scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope)

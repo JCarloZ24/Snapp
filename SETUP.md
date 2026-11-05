@@ -76,12 +76,12 @@ Navigate to the sample `Business website development` project, then click **Run 
 | `ALLOWED_MERCHANT_ADDRESSES` | server | Comma-separated independently verified recipient addresses |
 
 ## 7. Four parallel workstreams (collaborative, not strict)
-- **Designer — [Stobeeney](https://github.com/Stobeeney):** `docs/DESIGN.md`, `docs/UI.md`, reusable visual components; do **not** finalize brand until owner approves.
-- **Frontend developer — [JCarloZ24](https://github.com/JCarloZ24):** cutoff review, private employee statements/discrepancies, client evaluation and per-item status views; keep existing sample routes honestly labeled until replaced.
-- **Backend developer — [aidantiu](https://github.com/aidantiu):** verified Proyekto references, versioned reviews/calculations, immutable run approval, auth/RBAC and durable item-level reconciliation; Velo collections remain separate.
-- **Founder/fullstack — [JoshuaHM-p4](https://github.com/JoshuaHM-p4):** exact-approved-item Noir execution, app-side recipient/run limits, Testnet proof, bank-facility feasibility and release integration.
+- **UI/UX + Frontend — [JCarloZ24 (JC)](https://github.com/JCarloZ24):** `docs/DESIGN.md`, `docs/UI.md`, reusable components and frontend routes; cutoff review, private employee statements/discrepancies, client evaluation and per-item status views. Brand approval remains on hold; keep sample routes honestly labeled until replaced.
+- **API Integration — [Stobeeney](https://github.com/Stobeeney):** API contracts, shared types, server endpoints, frontend/API data wiring and Proyekto/Velo API integration; versioned reviews/calculations, auth/RBAC, immutable run approval and durable per-item records. Velo collections remain separate.
+- **Integration + Deployment — [aidantiu](https://github.com/aidantiu):** end-to-end integration, environment/hosting configuration, CI, web/server deployment and HTTPS webhook verification; coordinate integration and reconciliation checks with Stobeeney and the founder.
+- **Founder/fullstack — [JoshuaHM-p4](https://github.com/JoshuaHM-p4):** exact-approved-item Noir execution, app-side recipient/run limits, Testnet proof, bank-facility feasibility and final product/security review; support the integration and deployment owner.
 
-Assign issues, feature branches and small PRs; **no hard file permissions**. The designer can pair on front-end, backend developer can fix UI, founder can support everywhere. See [TEAM](docs/TEAM.md).
+Assign issues, feature branches and small PRs; **no hard file permissions**. These are primary responsibilities, not exclusive rights or changes to GitHub access. Anyone can pair across workstreams; the founder can support everywhere. See [TEAM](docs/TEAM.md).
 
 ## 8. Rules for any coding agent (Claude/Codex/etc.)
 Read `AGENTS.md` and `CLAUDE.md` first, then PRD/ARCHITECTURE/INTEGRATIONS. Pick a single small task, mention which files/interfaces will change, edit only what is needed, run tests, leave a concise PR summary. Do not invent API responses, integration success, wallet balances, webhook events, screenshots, transaction hashes or unsupported contract IDs. Never make real transfers.

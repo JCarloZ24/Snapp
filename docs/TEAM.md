@@ -4,12 +4,14 @@ This is a **coordination convention, not strict permissions or a CODEOWNERS enfo
 
 | Member / GitHub | Main concern | Normal files | First deliverable |
 |---|---|---|---|
-| Designer — [Stobeeney](https://github.com/Stobeeney) | UX, page layouts, product visual system | `docs/DESIGN.md`, `docs/UI.md`, `apps/web/src/components/`, styles | Low-fidelity screens and reviewed token proposal; visual brand on hold |
-| Developer — [JCarloZ24](https://github.com/JCarloZ24) | Frontend behavior, routes, page data integration | `apps/web/src/pages/`, `apps/web/src/App.tsx` | Owner cutoff-hours review, employee-private statements/discrepancies, versioned client evaluation and payment status views |
-| Developer — [aidantiu](https://github.com/aidantiu) | Server API, reviewed-hours/run models, integration references and reconciliation | `apps/server/`, `packages/shared/`, `docs/API.md` | Auth/RBAC, validated Proyekto references, immutable run approval and durable per-item records; Velo collections separate |
-| Fullstack / Founder — [JoshuaHM-p4](https://github.com/JoshuaHM-p4) | Approved-item Testnet execution, release and integration support | `packages/agent/`, `docs/INTEGRATIONS.md`, root docs/CI and deployment | App-side recipient/run constraints, real Noir authorize/claim proof, bank-facility feasibility and final integration |
+| UI/UX + Frontend — [JCarloZ24 (JC)](https://github.com/JCarloZ24) | UX, layouts, reusable components, frontend routes and page behavior | `docs/DESIGN.md`, `docs/UI.md`, `docs/PAGES.md`, `apps/web/` | Reviewed wireframes/token proposal, owner cutoff-hours review and employee/client views; visual brand remains on hold |
+| API Integration — [Stobeeney](https://github.com/Stobeeney) | API contracts, shared models, server endpoints, frontend/API wiring and external API connections | `apps/server/`, `packages/shared/`, frontend API calls, `docs/API.md` | Validated Proyekto references, reviewed-hours/run contracts, auth/RBAC, immutable approval and durable per-item records; Velo collections separate |
+| Integration + Deployment — [aidantiu](https://github.com/aidantiu) | End-to-end integration, environment/hosting configuration, CI, deployment and webhook connectivity | `.github/workflows/`, web/server hosting configuration, `docs/ARCHITECTURE.md`, `docs/INTEGRATIONS.md`, `SETUP.md` | Reproducible web/server deployment, HTTPS webhook verification and end-to-end reconciliation evidence, coordinated with API and Noir owners |
+| Fullstack / Founder — [JoshuaHM-p4](https://github.com/JoshuaHM-p4) | Approved-item Noir Testnet execution, payment safety and final product/security review | `packages/agent/`, payment integration review and root product docs | App-side recipient/run constraints, real Noir authorize/claim proof and bank-facility feasibility; support Aidantiu on release integration |
 
 These are target deliverables, not claims of working cutoff, bank or Proyekto integration. The owner retains manual hours review and final payment approval; the agent executes only exact approved items. Proyekto remains the work/invoicing system. Company bank feasibility and hackathon Testnet execution are separate paths.
+
+These assignments do not grant or change GitHub repository access, production credentials or payment-signing authority. API implementation and deployment work can share files; Stobeeney owns API contracts/wiring, while Aidantiu coordinates end-to-end integration and release.
 
 ## Rules of collaboration
 1. **One main concern each**, but not exclusive rights. Start with small PRs and use a shared issue ID.
@@ -18,7 +20,7 @@ These are target deliverables, not claims of working cutoff, bank or Proyekto in
 4. For API additions, change `packages/shared` and `docs/API.md` first; use compatible fields if other PRs depend on the old shape.
 5. Use PRs for review; one reviewer from a **different primary concern** when practical. Founder may merge; no mandatory protected branch or hard CODEOWNERS policy.
 6. Never commit credentials, personal or client payroll data; use demo wallets and fictional names.
-7. Designer's work on brand identity is on hold; grayscale layout can progress without selecting brand colors.
+7. JC owns UI/UX and frontend; brand identity remains on hold until approved. Neutral grayscale layouts can progress without selecting final brand colors.
 8. Merge early, rebase often, avoid week-long divergence. Keep a demo-ready main branch.
 
 ## Optional Git worktrees for parallel work

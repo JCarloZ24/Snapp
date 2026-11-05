@@ -9,7 +9,7 @@ Company cutoffs are **1–15** and **16–end-of-month**. The boss retains manua
 | Layer | Choice | Responsibility |
 | --- | --- | --- |
 | Web | React 18 + TypeScript + Vite | Client/developer/admin UI, no signer secrets |
-| UI | Tailwind CSS 3 + neutral temporary CSS | Designer can define real brand tokens later |
+| UI | Tailwind CSS 3 + neutral temporary CSS | JC owns UI/UX/frontend and proposes brand tokens for approval; visual branding remains on hold |
 | Server | Node.js 22.23.4+ + Express 4 + TypeScript/tsx | HTTP API, Velo webhook, authentication boundary |
 | Business rules | `packages/agent` TypeScript | Deterministic eligibility; Noir SDK adapter; extension-ready setup flow |
 | Shared models | `packages/shared` TypeScript | Types and response contracts, no credentials |
