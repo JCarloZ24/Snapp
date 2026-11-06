@@ -76,7 +76,7 @@ All live hackathon gates below remain open. Exercised local checks are recorded 
 - [x] `npm run check:scaffold` passed; `npm test` passed all 21 tests (20 Noir plus existing eligibility test)
 - [x] `npm run typecheck -w @agentpay/agent` passed; corrected RPC fixture protocol-version type and reran its two SDK boundary tests successfully
 - [x] Web production build passed within `npm run build`
-- [ ] Root typecheck/server build green: both exposed the unchanged Velo webhook payload mismatch at `apps/server/src/payments.ts:6` (`Buffer<ArrayBufferLike>` is not assignable to `string`). Velo dependency/adapter left unchanged as scoped.
+- [x] Root typecheck and `npm run build` green after the Velo webhook payload fix (`rawBody.toString()`), 33 tests passing
 - Deployment and live authorization/claim proof remain unverified.
 
 ### Snapp Autopilot (requirement #1) — implemented locally, Jev live call unexercised
@@ -89,7 +89,8 @@ All live hackathon gates below remain open. Exercised local checks are recorded 
 
 ## F. Velo client collections — separate hackathon path, optional to company payroll
 - [ ] Verify exact declared/installed SDK version against [current upstream release scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope): repository alpha declaration does not mean an upgrade occurred; upstream says Stellar Testnet only, no Mainnet, settlement or external provider
-- [ ] Persist client collection intents and signed webhook idempotency; reconcile before marking an invoice paid
+- [x] Persist client collection intents and signed webhook idempotency (SQLite `collections` + `velo_events`); status only from `paymentIntents.retrieve`; terminal states never regress; store test plus live route smoke with self-signed valid/replay/tampered/missing events
+- [ ] Exercise checkout → webhook → retrieve against a real Velo Testnet project and API key (none configured here); confirm the `paid` transition and record the hash
 - [ ] Produce genuine Testnet collection evidence for the hackathon integration; never use a redirect as payment proof
 - [ ] Keep Velo separate from payroll payout and escrow funding
 

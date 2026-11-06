@@ -8,14 +8,15 @@ Base local: `http://localhost:4000`. Routes tagged **implemented** are present i
 | GET | `/api/projects` | Fictional project samples; **public demo only** | No |
 | GET | `/api/agent/preview/:projectId` | Pure deterministic hold/review/pay decision; **no payment** | No |
 | POST | `/api/payments/checkout` | Creates Velo Testnet checkout when `DEMO_MODE=false`; `{projectId, amountXlm}` | `Bearer ADMIN_API_TOKEN` |
-| POST | `/api/webhooks/velo` | Raw signed Velo webhook verifier; currently logs verified receipt but **does not reconcile or mark paid** | Velo signature |
+| GET | `/api/collections` | Client collections this server created through Velo, with the status Velo last reported and the transaction hash from the verified event | none (fictional demo data) |
+| POST | `/api/webhooks/velo` | Raw-body HMAC verification, dedupe on `event.id` (SQLite), then `paymentIntents.retrieve` to set the collection status; a redelivery is a no-op, an unknown or unverifiable event never changes state | Velo signature |
 
 ## Current limitations (important)
 - HTTP routes remain a **fictional milestone preview and separate Velo collection demonstration**, not a cutoff/run API. A preview's `pay` decision is not boss approval of a payroll run or compensation advice; shared eligibility and already-submitted `paymentHash` checks remain unchanged.
 - `POST /api/milestones/:projectId/:milestoneId/approve` has been **removed and returns 404**. There is no replacement HTTP Noir payout, setup or claim route. An admin bearer token is not employee-scoped access or durable owner consent.
 - Noir execution is isolated in the local CLI, not JSON fixture mutation or HTTP requests. Exact owner-signed single-item consent and SQLite cumulative-device reservations do not provide authenticated cutoff approval, recipient onboarding or multiuser payroll safety.
 - The local merchant signer must separately collect pending funds with `claim`; authorization is not a confirmed claim, bank transfer or PHP wage payment.
-- Signed Velo webhook verification is implemented, but **deduplication, durable reconciliation and invoice-state updates are not implemented**.
+- Velo collections: checkout creation records the intent in `.data/collections.sqlite`; webhooks are verified on the raw body, deduped on `event.id`, and status is taken only from `paymentIntents.retrieve`, never from the webhook body or the success redirect. Terminal statuses never regress. A collection becoming `paid` is a client collection record only; it does not mark a Proyekto invoice, fund Noir escrow or release employee pay. Exercised locally with self-signed events (valid/replay/tampered/missing); not yet run against a real Velo project or key.
 - Client PHP invoice values are independent from selected XLM Testnet checkout amount. Velo collection does not fund Noir escrow or employee bank payouts.
 - No Proyekto import/link, bank export/API, cutoff hours review, employee statements/discrepancy access, immutable run approval or recipient-level run reconciliation contract is implemented.
 
