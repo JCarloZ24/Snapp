@@ -32,7 +32,7 @@ Registration closes Wednesday, Nov 4 at 11:59 PM; you build from Thursday, Nov 5
 | Nov 5 to Nov 7 (noon) | Build days: office hours and help on Discord |
 | Sat, Nov 7, 12:00 PM | Submissions close |
 | Sat, Nov 7, 4:00 PM | Top 10 teams announced |
-| Sun, Nov 8, 1:00 PM | Face-to-face round for the top 10 teams, 1:00 PM to 8:00 PM: pitching and awarding. Certificates of participation go to every participant after the winners are announced |
+| Sun, Nov 8, 1:00 PM | Face-to-face round for the top 10 teams, 1:00 PM to 8:00 PM: pitching and awarding (venue to be announced). Certificates of participation go to every participant after the winners are announced |
 
 ## **How to register**
 
@@ -308,6 +308,7 @@ Use npm, pnpm or yarn workspaces (Turborepo is optional). Folder names can chang
 
 `**Live website:** https://...`  
 `**Demo video (2 min):** https://...`  
+`**Pitch deck:** https://...`  
 `**Team:** Name (Discord handle), Name (Discord handle)`
 
 `## Problem`  
@@ -357,10 +358,11 @@ The judges check the Noir integration, Velo integration and Testnet proof sectio
 
 ## **Submission checklist**
 
-Submit before Saturday, Nov 7, 12:00 PM. The official submission link will be posted in Discord \#submissions and \#announcements before kickoff.
+Submit before Saturday, Nov 7, 12:00 PM. Submit your project here: [https\://forms.gle/hQ73PnsR1w2YwAq57](https://forms.gle/hQ73PnsR1w2YwAq57) (teams: the representative submits once for the whole team).
 
 > * ☐ **Public GitHub monorepo** link, with a root README in the required format  
 > * ☐ **2-minute demo video** that shows the agent making or requesting a payment  
+> * ☐ Pitch deck link (Google Slides, Canva or PDF), viewable by anyone with the link. The top 10 teams use it for the face-to-face pitch  
 > * ☐ **Short write-up**: the problem, how your agent works, and the payment flow through Velo and the Noir contracts  
 > * ☐ **Live website** link (required: the app must be deployed and working)  
 > * ☐ **Team members**: names and Discord handles, all already registered through the Google Form  

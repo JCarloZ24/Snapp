@@ -1,7 +1,7 @@
 # Software specification
 
 ## Scope and implementation boundary
-Snapp's target is a Proyekto-connected, owner-approved cutoff pay-run and payment-transparency layer, not a replacement project-management or invoicing system. Proyekto references/import, cutoff review, employee statements, immutable run approvals and durable item reconciliation are **not implemented** in this starter. Existing source remains a milestone-based Testnet demonstration; this specification does not upgrade it.
+Snapp's target is a Proyekto-connected, owner-approved cutoff pay-run and payment-transparency layer, not a replacement project-management or invoicing system. Proyekto references/import, cutoff review, employee statements, immutable approved pay runs and payroll-item reconciliation are **not implemented**. Current source retains fictional milestone previews and Velo adapters and adds separate controlled **local Noir Testnet tooling**; local single-item consent is not an authenticated payroll workflow. The former HTTP milestone approval route is removed (404), without a replacement.
 
 Company cutoffs are **1–15** and **16–end-of-month**. The boss retains manual judgment over hours per employee/project and final release authority. Primary value is avoiding repeated recipient/amount copying and separately authorized bank transfers, while making compensation explainable and consolidating actual outputs/client feedback beyond task labels.
 
@@ -11,28 +11,34 @@ Company cutoffs are **1–15** and **16–end-of-month**. The boss retains manua
 | Web | React 18 + TypeScript + Vite | Client/developer/admin UI, no signer secrets |
 | UI | Tailwind CSS 3 + neutral temporary CSS | JC owns UI/UX/frontend and proposes brand tokens for approval; visual branding remains on hold |
 | Server | Node.js 22.23.4+ + Express 4 + TypeScript/tsx | HTTP API, Velo webhook, authentication boundary |
-| Business rules | `packages/agent` TypeScript | Deterministic eligibility; Noir SDK adapter; extension-ready setup flow |
+| Business rules / local execution | `packages/agent` TypeScript | Unchanged deterministic preview eligibility plus local Noir consent/setup/authorize/claim/reconcile CLI |
 | Shared models | `packages/shared` TypeScript | Types and response contracts, no credentials |
-| Payments | `@noirx402/agent-sdk`, `@stellar/stellar-sdk` v16, `@carts1024/velo-sdk@alpha` | Stellar Testnet; SDK calls only |
-| Persistence | JSON fixture in `.data/` for local demo **only** | Must replace with a transactional DB prior to multi-user/payout use |
+| Payments | `@noirx402/agent-sdk@0.3.0`, `@stellar/stellar-sdk@16.0.1`, `@carts1024/velo-sdk@alpha` | Fixed native-XLM Testnet Noir configuration; official SDK operations only; Velo unchanged |
+| Persistence | Read-only JSON fixtures; repository-root `.data/noir-testnet.sqlite` local experiment journal | SQLite serializes exact consent/transaction reservations; no multiuser payroll database or cross-journal deduplication |
 | Hosting | Static Vite host + persistent Node host | Required publicly reachable web and webhook server |
 | Package management | npm workspaces | Single install, separate packages and ownership |
 
-**Runtime:** Noir handbook requires Node `^22.23.4`, `^24.22.1` or `>=26.12.1`. `nvm use` before `npm install`. The repository declares Velo `"alpha"` and Noir `"latest"`; a resolved installed version is not established here. Current [Velo upstream release scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope) describes stable `1.0.0`, but still Stellar Testnet only, without Mainnet, settlement or an external payment provider. No dependency upgrade or live validation is implied.
+**Runtime:** Noir handbook requires Node `^22.23.4`, `^24.22.1` or `>=26.12.1`. Installation succeeded on Node 22.23.4 and generated a lockfile; installed Noir 0.3.0/Stellar 16.0.1 were checked against the pinned SDK source. Velo remains declared `"alpha"`, without an upgrade or live validation. Current [Velo upstream release scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope) describes stable `1.0.0`, but still Stellar Testnet only, without Mainnet, settlement or an external payment provider.
 
 ## Nonfunctional requirements
 - Testnet only. Fail closed if secrets, device hash, recipient verification, policy, or data are absent.
 - All monetary blockchain inputs are **decimal strings** converted with Noir `toStroops`; no JS floats for on-chain amounts.
 - No browser exposure of API keys, signing keys, webhook secrets or ADMIN_API_TOKEN.
 - HTTPS required for live, signed webhook verification over raw unparsed request bodies, idempotency in storage.
-- Before payout-capable multiuser use, replace the JSON store with transactional storage, immutable approved-run revisions, per-item unique execution records, atomic reservations, durable events and reconciliation. These are requirements, not current capabilities.
+- Before payout-capable multiuser use, implement a transactional payroll database, immutable approved-run revisions, unique obligation/item identities, atomic run reservations, durable events, authentication/RBAC and payroll reconciliation. The implemented local SQLite experiment journal is not that system.
 - Bind approval to exact recipient, amount, asset/currency, cutoff and run revision; any change requires owner reapproval. Execute only approved items and enforce recipient allowlisting plus cumulative run limits app-side: Noir's per-payment cap/asset/expiry policy does not provide either constraint.
 - Persist individual recipient results, including partial failure and unknown outcomes; reconcile before retry, never blindly resend. Separate Noir authorization from merchant claim confirmation.
 - Employee access is restricted to their own compensation/statement/discrepancies; public fixture APIs are not an employee authorization model.
 - Preserve human dispute resolution, neutral temporary branding and Testnet-only demonstrations. Testnet authorization does not deliver PHP to bank accounts.
 
-## Env ownership
-`apps/server/.env` for Testnet credentials; `apps/web` only non-secret public config. See `SETUP.md` and server example. Snapp retains the internal root package name `agentpay`, `@agentpay/*` workspace identifiers and existing directory paths; these are technical identifiers, not the product display name.
+## Environment and local execution ownership
+`apps/server/.env` contains Velo/admin server configuration; `apps/web` receives only non-secret public configuration. Noir uses inherited private **role-specific local shells**, never auto-loads server `.env`, and reads only the owner/agent/merchant secret required by the command. No secrets in arguments, chat, browser, logs or commits. See [SETUP](../SETUP.md) and `packages/agent/.env.example`. Snapp retains the internal root package name `agentpay`, `@agentpay/*` workspace identifiers and existing directory paths; these are technical identifiers, not the product display name.
+
+Root entry point: `npm run noir -- <command>`, with `plan`, `doctor`, `approve`, `setup --step device|policy|fund`, `check`, `authorize`, `claim`, `reconcile`, `evidence`. Owner signs exact single-item manifest/configuration bytes; live commands require `--live`, exact digest confirmation, valid approval, verified merchant allowlisting, separate manually funded Testnet roles and independent contract attestation. SDK/repository agreement and read-only network checks do not resolve the earlier form-ID discrepancy.
+
+Canonical SQLite journal: repository-root `.data/noir-testnet.sqlite` independent of cwd; `--db` explicitly selects a different journal. Persist transaction hash/operation/nonce under lock before broadcast and reserve prepared/unknown/succeeded authorizations against the cumulative-device budget. There is no retry/reset/replacement nonce for any recorded operation, including failed ones, and no deduplication guarantee after journal copies/deletion. Merchant `claim --pending-stroops` confirms the positive aggregate to collect all merchant/token pending funds, not one item receipt. Reconciliation/evidence distinguish recorded identity, confirmed transaction and matching events; already-authorized collection remains available after expiry.
+
+**Exercised evidence:** 20 focused Noir tests, all 21 workspace tests, scaffold checks, agent typecheck, actual CLI/SDK persistence smoke, read-only Testnet configuration checks and real server/browser preview. Root typecheck and full build pass (33 tests). Velo reconciliation exercised locally with self-signed events; no real Velo project/API key run yet. Live authorization/claim and deployment remain unverified; see [verification details](CHECKLIST.md#exercised-controlled-tooling-checks--not-live-gates).
 
 ## Target domain entities — pending design, not current shared types
 | Entity | Required information / boundary |

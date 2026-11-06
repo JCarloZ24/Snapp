@@ -16,14 +16,14 @@ Assignments are soft ownership, not changes to repository access or signing auth
 - [x] Root README with mandatory hackathon section order
 - [x] PRD, setup, software, architecture, design placeholder, pages, UI, API and team guide
 - [x] Sample React dashboard; Express health and project/preview endpoints
-- [x] Noir decision module, sample test, starter SDK adapter
+- [x] Deterministic decision module and controlled local Noir CLI with signed single-item consent and SQLite journal
 - [x] Velo server checkout and signature verification adapters
-- [ ] Install from clean machine with supported Node and capture lockfile
+- [x] Supported Node 22.23.4 installation succeeded and captured lockfile (clean-machine reproduction still pending)
 - [ ] Green CI build/test after official SDK installation
 - [ ] GitHub public repo created and pushed (owner + URL)
 
 ## B. Priority product workflow — pending, owner / domain / UX
-All new cutoff, Proyekto, client-evaluation, statement, approval and bank capabilities below are unimplemented targets. Existing sample pages and adapters are not proof of this workflow.
+All cutoff, Proyekto, client-evaluation, employee statement, approved **pay-run** and bank capabilities below are unimplemented targets. Local owner-signed experiment consent and SQLite cumulative-device reservations do not complete them.
 - [ ] Prepare company cutoffs for days 1–15 and 16–end-of-month
 - [ ] Link/import Proyekto references with provenance; verify integration rather than replacing its existing projects/tasks/docs/progress/roadmaps/Gantt/invoicing
 - [ ] Consolidate employee/project hours, actual outputs and versioned client feedback for boss review
@@ -38,7 +38,7 @@ All new cutoff, Proyekto, client-evaluation, statement, approval and bank capabi
 ## C. UX and persistence — pending
 - [ ] Wireframes/components/routes for the priority workflow; current scaffold previews remain explicitly labeled
 - [ ] Founder approves Prodigitality brand tokens/design (currently on hold); retain neutral grayscale until approved
-- [ ] Real transactional database/migrations and login/RBAC for owner, employee and client
+- [ ] Multiuser payroll database/migrations and login/RBAC for owner, employee and client; local experiment SQLite is not this system
 - [ ] Versioned compensation terms, calculations, approval snapshots, discrepancies and audit records
 - [ ] Connect UI to validated API with loading/empty/error states; no fabricated successful states
 - [ ] Responsive/mobile/accessibility verification and genuine transaction evidence display
@@ -52,20 +52,45 @@ All new cutoff, Proyekto, client-evaluation, statement, approval and bank capabi
 - Existing solutions already address parts of this: [BPI BizLink transaction-file upload and approvals](https://www.bpi.com.ph/institutional-banking/cashflow-management/bizlink), [Sprout payslips/timekeeping/bank files](https://sprout.ph/product/payroll-management/). Differentiate through Proyekto-linked traceability and approved-run transparency, not invented payroll functionality.
 
 ## E. Hackathon Noir Testnet path — pending proof
-- [ ] Confirm official Noir SDK Testnet contract IDs/network guidance; use Noir SDK only
-- [ ] Install supported Node and verify exact SDK declarations/installed versions; do not silently describe a dependency upgrade
-- [ ] Fund owner, agent and merchant Testnet accounts; pre-fund escrow separately from client collections
-- [ ] Owner completes SDK device/agent registration and policy setup, then `fundEscrow`
-- [ ] Verify recipient wallet ownership and implement app-side merchant allowlist and cumulative cutoff cap: Noir per-payment asset/amount/expiry caps do not provide these
-- [ ] Persist owner-approved exact-item snapshots and serialized at-most-once execution records before enabling automated execution
-- [ ] Agent checks approved exact recipient/asset/amount and policy eligibility, then SDK `checkPayment` → `authorizePayment`; no wage determination
-- [ ] Merchant separately calls `claim`; retain actual authorization and claim transaction evidence
-- [ ] Negative cases: changed/unapproved item, wrong merchant/asset, exceeded per-payment/run cap, expired policy, duplicate, missing evidence and unknown outcome
+All live hackathon gates below remain open. Exercised local checks are recorded separately, not substituted for genuine Testnet proof.
+- [ ] Independently resolve earlier form-ID discrepancy with organizers/deployment evidence; pinned SDK/repository agreement and read-only network checks are insufficient
+- [ ] Fund three distinct owner, agent and merchant Testnet accounts manually; pre-fund escrow separately from client collections
+- [ ] Owner completes real SDK device/agent registration and policy setup, then `fundEscrow`, with confirmed transaction evidence
+- [ ] Verify recipient wallet ownership/allowlist and each role's explicit consent before live use; cumulative **cutoff/run** constraints remain unimplemented
+- [ ] Exercise exact signed local consent and serialized journal reservations against live Testnet without exposing an HTTP payout route
+- [ ] Agent checks approved exact recipient/asset/amount and policy eligibility, then SDK `checkPayment` → prepare/sign/submit `authorize`; no wage determination
+- [ ] Merchant separately signs aggregate `claim`; retain separate actual authorization and claim transaction/event evidence, not one claim per payroll item
+- [ ] Validate negative live conditions safely; focused offline tests do not complete live integration proof
 - [ ] Attach genuine Stellar Expert Testnet proof; do not claim Mainnet, bank payout or production settlement
+
+### Exercised controlled-tooling checks — not live gates
+- [x] Installed Noir 0.3.0/Stellar 16.0.1 inspected against pinned SDK commit `704f701a017b0b13f79898d2597df8c11fd4fa94`; no Velo upgrade
+- [x] Twenty focused Noir tests passed; real-SDK synthetic transport smoke checked hash persistence before broadcast and timeout/restart without replay
+- [x] Actual CLI help/plan/approve/evidence/missing-live/attestation checks passed without secrets/XDR in captured output
+- [x] Read-only public Testnet configuration/network check and `doctor` passed with `contractsAttested:false`
+- Local commands: `npm run noir -- plan|doctor|approve|setup|check|authorize|claim|reconcile|evidence`; setup uses `--step device|policy|fund`. See [SETUP](../SETUP.md).
+- Canonical repository-root SQLite journal persists identity before broadcast, counts prepared/unknown/succeeded authorizations toward cumulative-device budget, and has no retry/reset even for failed operations. Explicit `--db` alternatives, copies or deletion do not provide cross-journal deduplication.
+- Former HTTP milestone approval route is removed (404), with no replacement. Fixture previews/shared eligibility and separate Velo routes remain. Local secrets are privately inherited by role, never server `.env`, browser, arguments or chat; official SDK only, fixed Testnet only.
+- [x] Real server with `DEMO_MODE=true`: health/projects/preview returned 200; removed milestone approval POST returned 404; preview produced three dry-run holds
+- [x] Actual Vite project page opened, preview clicked, three holds/local-tooling prose observed, screenshot captured, no browser errors, tab closed
+- [x] `npm run check:scaffold` passed; `npm test` passed all 21 tests (20 Noir plus existing eligibility test)
+- [x] `npm run typecheck -w @agentpay/agent` passed; corrected RPC fixture protocol-version type and reran its two SDK boundary tests successfully
+- [x] Web production build passed within `npm run build`
+- [x] Root typecheck and `npm run build` green after the Velo webhook payload fix (`rawBody.toString()`), 33 tests passing
+- Deployment and live authorization/claim proof remain unverified.
+
+### Snapp Autopilot (requirement #1) — implemented locally, Jev live call unexercised
+- [x] `assess`/`autopilot` commands: Payment Eligibility Engine (deterministic) + Payout Risk & Review Agent (Jev, pinned `jev-1.14.0`) + existing journaled Noir `authorize`; immutable `decisions` log surfaced by `evidence`
+- [x] 10 new tests: rule precedence, Jev-only-tightens thresholds, unavailable/malformed/401/500 → DEFER, real `ai@7.0.163` + `@ai-sdk/typesafe-ai@3.0.34` request/response through a fake `fetch` (pinned model, bearer header, review-only state), autopilot executes once and reports `ALREADY_EXECUTED` afterwards, disabled switch, tampered approval escalates before Jev/chain
+- [x] Actual CLI smoke with a temp journal: `assess` returned `DEFER/eligibility`, `ESCALATE/binding`, `ESCALATE/chain` (real public RPC read on an unregistered device; Jev never consulted); `autopilot` refused without `--live` and without attestation before any signer; decisions appeared in `evidence`; no secrets in output
+- [x] Real Jev answers observed via Vercel AI Gateway (`typesafe-ai/jev`, after the Vercel team added a card): accepted feedback → `routine` P=1.00, concern 0.03 → EXECUTE; open tablet revision → `pending` P=0.92, concern 0.97 → DEFER; disputed completion → `escalate` P=1.00, concern 0.97 → ESCALATE. Latency 0.4–1.8 s. A full `assess` against real Testnet RPC escalated at the chain stage (unregistered device) before Jev was consulted, as designed. Gateway reports the alias, not a pinned Jev version; the direct TypeSafe route pins `jev-1.14.0`.
+- [ ] Live autopilot execution on Testnet (same prerequisites as manual `authorize`)
+- [ ] Threshold tuning against representative accepted/revision/dispute feedback samples; current values are documented starting points
 
 ## F. Velo client collections — separate hackathon path, optional to company payroll
 - [ ] Verify exact declared/installed SDK version against [current upstream release scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope): repository alpha declaration does not mean an upgrade occurred; upstream says Stellar Testnet only, no Mainnet, settlement or external provider
-- [ ] Persist client collection intents and signed webhook idempotency; reconcile before marking an invoice paid
+- [x] Persist client collection intents and signed webhook idempotency (SQLite `collections` + `velo_events`); status only from `paymentIntents.retrieve`; terminal states never regress; store test plus live route smoke with self-signed valid/replay/tampered/missing events
+- [ ] Exercise checkout → webhook → retrieve against a real Velo Testnet project and API key (none configured here); confirm the `paid` transition and record the hash
 - [ ] Produce genuine Testnet collection evidence for the hackathon integration; never use a redirect as payment proof
 - [ ] Keep Velo separate from payroll payout and escrow funding
 
@@ -73,7 +98,8 @@ Noir constraints reference: [official contracts documentation](https://github.co
 
 ## G. Demo and deadline (Philippine time UTC+8)
 - [ ] Team registration confirmed by organizers (handbook lists Nov 4 23:59 deadline; may already be past)
-- [ ] Deployed web URL loads from a separate device (required)
+- [x] Deploy config committed and verified locally: `vercel.json` (web, SPA fallback, `VITE_API_BASE` embedded at build) and `render.yaml` (server, `/api/health` check, CORS origin from `WEB_ORIGIN`); steps in [SETUP §6a](../SETUP.md)
+- [ ] Deployed web URL loads from a separate device (required): needs Vercel + Render accounts and the env values in SETUP §6a
 - [ ] Deployed server HTTPS webhook receives verified event
 - [ ] Public repo links source files + docs + exact SDK versions
 - [ ] README sections completed with real URLs, screenshots, credits
@@ -88,8 +114,8 @@ Target only: do not perform or narrate pending screens/actions as working. Until
 1. Explain the real cutoff (1–15 or 16–end-of-month), Proyekto reference context, employee/project hours, actual outputs and versioned client feedback. Proyekto import remains pending until verified.
 2. Boss manually reviews hours under the applicable agreement. Show the employee's own hours/rates/adjustments statement and discrepancy channel; client acceptance or invoice payment is not a universal employee-pay gate.
 3. Boss explicitly approves the immutable exact recipient + amount snapshot. Explain that changes require reapproval; if this pending control is not implemented, do not pretend the current preview supplies it.
-4. For the hackathon only, show owner device/policy setup and independently pre-funded Noir Testnet escrow. Agent checks an approved exact item and app-side merchant/run limits, then SDK `checkPayment` and `authorizePayment`. It automates eligible execution, not wage judgment.
-5. Merchant separately claims; show genuine authorization and claim transaction hashes and each recipient's reconciled result. Demonstrate partial failure/unknown handling without blind retry only when implemented.
+4. For the hackathon only, use the separate local CLI for owner-signed exact single-item consent, device/policy setup and independently pre-funded Noir Testnet escrow. Agent checks the signed item, merchant allowlist and cumulative-device journal budget, then SDK `checkPayment` and prepare/sign/submit `authorize`. This is not an authenticated cutoff/pay-run approval screen.
+5. Merchant separately confirms aggregate pending stroops and claims; show genuine, separate authorization/claim hashes, ledgers and events only after live verification. Explain the irreversible no-replay journal and unknown-state reconciliation. Current offline evidence is not live receipt proof.
 6. Explain the distinct recommended company bank-file path: chosen supported format and bank approval controls, all pending with no bank integration. No OTP/UI automation or production payout claim.
 7. Show the separate Velo Testnet client collection with genuine signed-event/reconciliation evidence once implemented and validated. It is optional to the company's pay-run workflow, but remains a separate hackathon integration goal—not payroll payout or an escrow-funding bridge.
 

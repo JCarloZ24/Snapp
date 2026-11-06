@@ -38,7 +38,7 @@ Constraint: **do not automate away the owner's review of hours**. Client evaluat
 | Operations / preparer | Prepare cutoff records and supporting evidence without unapproved fund release | Authorized preparation scope; no implicit signing authority |
 | Developer / employee | Check agreed terms, submitted/approved hours, calculation and receipt; raise discrepancies | Own compensation and assigned work only; not company margins or coworkers' pay |
 | Client | Evaluate the submitted version of a deliverable, comment, request revisions or accept | Own project deliverables and client-facing records; no employee payroll |
-| Payment agent | Check approved items and execute eligible Testnet payments under limits | Server-held delegated key; cannot approve hours, set wages or change approved recipients/amounts |
+| Payment agent | Check approved items and execute eligible Testnet payments under limits | Target constrained signing authority; current local CLI uses a separately supplied agent key and cannot approve hours, set wages or change signed recipients/amounts |
 
 The current starter uses **fictional demo data and no user authentication** on read-only screens. Never load actual customer or payroll data into it. The Proyekto connection and role-specific workflows are not implemented.
 
@@ -107,7 +107,7 @@ All unchecked items below are target behavior, not current implementation claims
 ### US-07 — Demonstrate delegated Testnet execution (P0, hackathon gate)
 - [ ] Owner signs real Noir SDK `registerDevice`, `registerAgent` and `fundEscrow` calls using free Testnet assets.
 - [ ] Owner approves exact Testnet recipient/amount items separately from any PHP accounting values; no implicit FX.
-- [ ] Agent validates the approved item and app-side limits, then calls `checkPayment` before `authorizePayment`.
+- [ ] Agent validates the approved item and app-side limits, then calls `checkPayment` before SDK preparation/signing/submission of `authorize`.
 - [ ] Merchant signs `claim`; store and display authorization and claim transactions separately with genuine explorer links.
 - [ ] Negative cases cover missing owner approval, changed run, wrong recipient/asset, expired policy, per-item/run limits, missing funds, duplicate and uncertain execution.
 - [ ] Use durable transactional storage and authenticated approval before exposing payment execution beyond an isolated controlled experiment.
@@ -130,13 +130,17 @@ All unchecked items below are target behavior, not current implementation claims
 Retain source record versions, agreements, hours decisions, evaluations, calculations, approval snapshots, execution attempts, agent decisions and provider references. A fresh Noir nonce is not a business-level duplicate-payment safeguard.
 
 ## 7. Existing starter versus target
-The existing milestone-oriented starter has not been migrated by this product specification:
+The product workflow remains unimplemented; the current source provides:
 - Sample project, invoice and developer views with fictional agreements/milestones.
-- A deterministic dry-run engine that can return `hold`, `human_review` or `pay`; a preview is not a release approval or transfer.
-- Velo checkout/signature-verification adapters and a protected legacy milestone-approval/Noir trigger.
-- A Noir `checkPayment`/`authorizePayment` adapter; SDK compatibility and live proof remain unverified.
+- A deterministic dry-run engine that can return `hold`, `human_review` or `pay`; shared eligibility and already-submitted `paymentHash` rules remain preview rules, not release approval or transfer.
+- Velo checkout/signature-verification adapters, independent of Noir. The former HTTP milestone approval route is removed (404); no replacement payout endpoint exists.
+- Controlled **local** Noir Testnet commands via `npm run noir -- <command>`: `plan`, `doctor`, `approve`, `setup --step device|policy|fund`, `check`, `authorize`, `claim`, `reconcile`, `evidence`. Official SDK 0.3.0 is pinned; Stellar SDK 16.0.1 is used for signing/transaction inspection, not custom contract invocation.
+- Exact owner-signed single-item manifest/configuration consent, independent merchant allowlisting and a repository-root SQLite cumulative-device journal. Transaction hash/nonce are persisted before broadcast; recorded operations have no retry/reset, including failed ones. Prepared/unknown/succeeded authorizations reserve budget. Journal copies/deletion are outside its deduplication guarantee.
+- Separately signed owner setup, agent authorization and merchant aggregate claim; claim collects all merchant/token pending funds, not one item receipt. Reconciliation/evidence distinguish recorded identity, confirmed transaction and matching events.
 
-Missing: cutoff and reviewed-hours models, Proyekto connection, client-evaluation history, employee calculation/discrepancy views, immutable approved runs, run-budget enforcement, bank payout support, durable reconciliation, authentication/RBAC, complete owner setup and merchant claim flow. See [API](docs/API.md) for current routes. **Do not use the legacy milestone endpoint as if it implements the target pay-run contract.**
+Exercised: SDK/source/network agreement, 20 focused Noir tests, all 21 workspace tests, scaffold checks, agent typecheck, offline CLI/SDK persistence smoke and actual server/browser preview. Root typecheck and full build pass (33 tests). Velo reconciliation exercised locally with self-signed events only. Live authorization/claim and deployment proof remain unverified; see [verification details](docs/CHECKLIST.md#exercised-controlled-tooling-checks--not-live-gates).
+
+Missing: cutoff and reviewed-hours models, Proyekto connection, client-evaluation history, employee calculation/discrepancy views, immutable approved **pay runs**, run-budget/obligation identities, bank payout support, payroll reconciliation and authentication/RBAC. Local signed experiment consent and SQLite reservations do not implement those features. See [API](docs/API.md) and [SETUP](SETUP.md). All US-07 live hackathon gates remain open.
 
 ## 8. Priorities and definition of done
 **P0 product demonstration:** cutoff preparation, linked work/client-feedback context, manual owner hours review, employee-visible breakdown, exact run approval, authenticated and durable execution safeguards, and per-recipient reconciliation.
@@ -156,7 +160,7 @@ Complete means the actual source implements the stated demonstration, required U
 - [Velo's upstream SDK scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope) is Testnet only, without Mainnet or external settlement support. Noir is not a bank payout service.
 - Noir enforces asset, per-payment cap and expiry, not recipient allowlists or cumulative cutoff budgets; those need app-side enforcement.
 - Brand design remains **on hold** pending approved Prodigitality assets.
-- Server-side agent signing uses the official Noir SDK; owner, agent and merchant use separate funded Testnet accounts. Never reuse production keys.
+- Local signing uses private inherited role-specific secrets, not server `.env`, browser, arguments or chat. Owner, agent and merchant must use separate manually funded Testnet accounts and consent; no production keys. Live commands require `--live`, exact digest confirmation and independently justified contract attestation.
 - Contract IDs differ between the earlier form and handbook/repository references. Verification remains unresolved; see [INTEGRATIONS](docs/INTEGRATIONS.md).
 
 Out of scope for this hackathon: real money or customer/payroll data, PHP-to-XLM conversion, bank/GCash execution, Philippine payroll/tax compliance, legal escrow guarantees, autonomous subjective acceptance, automatic work ratings and production deployment claims.
