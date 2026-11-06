@@ -1,0 +1,656 @@
+/* Snapp-owned appearance; React Aria supplies unstyled interaction semantics. */
+.snapp-ui {
+  font-family: "Geist Variable", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  color-scheme: dark;
+  font-synthesis: none;
+}
+.snapp-ui[data-snapp-theme="light"] {
+  color-scheme: light;
+}
+.snapp-ui * {
+  box-sizing: border-box;
+}
+.snapp-ui svg {
+  stroke-width: 1.5;
+}
+.snapp-ui button,
+.snapp-ui input,
+.snapp-ui textarea {
+  font: inherit;
+  color: inherit;
+}
+.snapp-ui button {
+  cursor: pointer;
+}
+.snapp-ui :is(button, input, textarea):disabled,
+.snapp-ui [data-disabled] {
+  cursor: not-allowed;
+  opacity: 1;
+}
+.snapp-ui [data-disabled] .snapp-select-trigger,
+.snapp-ui .snapp-select-trigger:disabled {
+  color: var(--muted);
+  border-style: dashed;
+  background: var(--surface);
+  opacity: 1;
+}
+.snapp-calendar-cell[data-disabled] {
+  color: var(--muted);
+}
+.snapp-ui :focus-visible,
+.snapp-ui [data-focus-visible] {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.snapp-ui ::selection {
+  background: var(--selection);
+  color: var(--selection-text);
+}
+.snapp-ui :is(input, textarea) {
+  caret-color: var(--focus);
+}
+.snapp-ui * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) var(--surface);
+}
+.snapp-ui ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.snapp-ui ::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border: 2px solid var(--surface);
+  border-radius: 8px;
+}
+.snapp-ui ::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+.snapp-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text);
+}
+.snapp-label > span {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.snapp-select,
+.snapp-date-picker,
+.snapp-text-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+.snapp-hint,
+.snapp-error {
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+.snapp-hint {
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.snapp-error {
+  color: var(--stop);
+}
+.snapp-error:empty {
+  display: none;
+}
+.snapp-select-trigger,
+.snapp-date-group {
+  min-height: 48px;
+  width: 100%;
+  border: 1px solid var(--control-border);
+  background: var(--bg);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text);
+}
+.snapp-select-trigger {
+  padding: 10px 12px;
+  text-align: start;
+  transition: border-color var(--dur-snap) var(--ease-standard);
+}
+.snapp-select-trigger > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.snapp-select-trigger > svg {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform var(--dur-snap) var(--ease-snap);
+}
+.snapp-select[data-open] .snapp-select-trigger > svg {
+  transform: rotate(180deg);
+}
+.snapp-select-trigger[data-hovered] {
+  border-color: var(--text);
+}
+.snapp-select [data-placeholder],
+.snapp-date-segment[data-placeholder] {
+  color: var(--muted);
+}
+.snapp-select[data-invalid] .snapp-select-trigger,
+.snapp-date-picker[data-invalid] .snapp-date-group {
+  border-color: var(--stop);
+}
+.snapp-popover {
+  background: var(--surface);
+  border: 1px solid var(--control-border);
+  border-radius: 12px;
+  z-index: 60;
+  width: var(--trigger-width);
+  max-width: calc(100vw - 24px);
+  max-height: var(--available-height);
+  overflow: auto;
+  padding: 6px;
+}
+.snapp-popover[data-entering] {
+  animation: snapp-popover-in var(--dur-snap) var(--ease-snap);
+}
+.snapp-listbox {
+  outline: none;
+  display: grid;
+  gap: 2px;
+  max-height: 320px;
+  overflow: auto;
+}
+.snapp-option {
+  min-height: 44px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+}
+.snapp-option > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.snapp-option [slot="description"] {
+  font-size: 12px;
+  color: var(--muted);
+}
+.snapp-option[data-selected] {
+  background: var(--raised);
+}
+.snapp-option[data-focused] {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+  background: var(--raised);
+}
+.snapp-option > svg {
+  flex-shrink: 0;
+}
+.snapp-icon-button {
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  border-radius: 8px;
+}
+.snapp-icon-button:hover,
+.snapp-icon-button[data-hovered] {
+  background: var(--raised);
+}
+.snapp-date-group {
+  padding-inline-start: 12px;
+  gap: 4px;
+}
+.snapp-date-input {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.snapp-date-segment {
+  padding: 4px 2px;
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.snapp-date-segment:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 0;
+  background: var(--raised);
+  color: var(--text);
+}
+.snapp-calendar-popover {
+  width: auto;
+  padding: 12px;
+  max-height: min(var(--available-height), 620px);
+}
+.snapp-calendar-dialog {
+  outline: none;
+  max-width: 320px;
+}
+.snapp-calendar header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.snapp-calendar h2 {
+  font-size: 16px;
+  font-family: "Geist Variable", sans-serif;
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
+}
+.snapp-calendar-grid {
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+.snapp-calendar-grid th,
+.snapp-calendar-grid td {
+  padding: 0;
+  border: 0;
+  text-align: center;
+  font-size: 14px;
+}
+.snapp-calendar-grid th {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  height: 32px;
+}
+.snapp-calendar-cell {
+  width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid transparent;
+}
+.snapp-calendar-cell[data-hovered] {
+  background: var(--raised);
+}
+.snapp-calendar-cell[data-selected] {
+  background: var(--selection);
+  color: var(--selection-text);
+  border-color: var(--text);
+  font-weight: 600;
+}
+.snapp-calendar-cell[data-today]:not([data-selected]) {
+  border-color: var(--control-border);
+}
+.snapp-calendar-cell[data-outside-month] {
+  visibility: hidden;
+}
+.snapp-calendar-dialog > .snapp-hint {
+  margin-top: 12px;
+  max-width: 300px;
+}
+.snapp-text-frame {
+  position: relative;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--bg);
+  min-width: 0;
+}
+/* Focus changes the single perimeter; length lives beside the count. */
+.snapp-text-frame:focus-within {
+  border-color: var(--focus);
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--focus);
+}
+.snapp-text-field[data-length-state="invalid"] .snapp-text-frame {
+  border-color: var(--stop);
+}
+.snapp-text-field[data-length-state="invalid"] .snapp-text-frame:focus-within {
+  box-shadow: inset 0 0 0 1px var(--stop);
+}
+.snapp-length-meter {
+  display: inline-block;
+  width: 40px;
+  height: 3px;
+  background: var(--raised);
+  vertical-align: middle;
+  margin-inline-end: 8px;
+  overflow: hidden;
+}
+.snapp-length-meter i {
+  display: block;
+  height: 100%;
+  background: var(--muted);
+  transform-origin: left;
+}
+.snapp-text-field[data-length-state="near"] .snapp-length-meter i {
+  background: var(--attention);
+}
+.snapp-text-field[data-length-state="invalid"] .snapp-length-meter i {
+  background: var(--stop);
+}
+.snapp-text-input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px !important;
+  line-height: 1.6;
+  outline: none !important;
+}
+textarea.snapp-text-input {
+  min-height: 128px;
+  resize: vertical;
+}
+.snapp-text-input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.snapp-field-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.snapp-length-state {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.snapp-length-state svg {
+  flex-shrink: 0;
+}
+.snapp-count {
+  font-family: "Geist Mono Variable", monospace;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.snapp-text-field[data-length-state="near"] .snapp-length-state {
+  color: var(--attention);
+}
+.snapp-text-field[data-length-state="invalid"] .snapp-length-state {
+  color: var(--stop);
+}
+.snapp-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+}
+.snapp-switch-track {
+  width: 34px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--raised);
+  border: 1px solid var(--control-border);
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  flex-shrink: 0;
+}
+.snapp-switch-track > span {
+  width: 12px;
+  height: 12px;
+  background: var(--muted);
+  border-radius: 50%;
+  transition: transform var(--dur-snap) var(--ease-snap);
+}
+.snapp-switch[data-selected] .snapp-switch-track {
+  background: var(--selection);
+  border-color: var(--text);
+}
+.snapp-switch[data-selected] .snapp-switch-track > span {
+  transform: translateX(14px);
+  background: var(--selection-text);
+}
+.snapp-switch[data-focus-visible] {
+  outline: 0;
+}
+.snapp-switch[data-focus-visible] .snapp-switch-track {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+.snapp-slider {
+  width: 100%;
+  margin-block: 12px;
+}
+.snapp-slider-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+}
+.snapp-slider-label output {
+  font-family: "Geist Mono Variable", monospace;
+  font-size: 12px;
+}
+.snapp-slider-track {
+  position: relative;
+  height: 44px;
+  width: 100%;
+  touch-action: pan-y;
+}
+.snapp-slider-rail,
+.snapp-slider-fill {
+  position: absolute;
+  top: 21px;
+  height: 2px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.snapp-slider-rail {
+  width: 100%;
+  background: var(--control-border);
+}
+.snapp-slider-fill {
+  background: var(--text);
+}
+.snapp-slider-thumb {
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  cursor: grab;
+}
+.snapp-slider-thumb::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: var(--surface);
+  border: 2px solid var(--text);
+  border-radius: 50%;
+}
+.snapp-slider-thumb[data-dragging] {
+  cursor: grabbing;
+}
+.snapp-form {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+.lib-validation-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+.snapp-error-summary,
+.snapp-form-confirmation {
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+}
+.snapp-error-summary {
+  color: var(--stop) !important;
+}
+.snapp-form-confirmation {
+  color: var(--text) !important;
+}
+.snapp-error-summary svg,
+.snapp-form-confirmation svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.snapp-toasts {
+  position: fixed;
+  inset: auto 24px 24px auto;
+  z-index: 90;
+  width: min(420px, calc(100vw - 32px));
+  display: grid;
+  gap: 12px;
+}
+.snapp-toast {
+  display: grid;
+  grid-template-columns: 18px 1fr 44px;
+  align-items: start;
+  gap: 12px;
+  padding: 16px 8px 16px 16px;
+  background: var(--raised);
+  border: 1px solid var(--control-border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  animation: snapp-popover-in var(--dur-snap) var(--ease-snap);
+}
+.snapp-toast > svg {
+  margin-top: 3px;
+}
+.snapp-toast .snapp-icon-button {
+  margin-block: -8px;
+}
+.snapp-toast[data-tone="warning"] > svg {
+  color: var(--attention);
+}
+.snapp-toast[data-tone="error"] > svg {
+  color: var(--stop);
+}
+.snapp-ui[data-reduced="true"] *,
+.snapp-ui[data-reduced="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+@keyframes snapp-popover-in {
+  from {
+    opacity: 0.7;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 760px) {
+  .lib-validation-layout {
+    grid-template-columns: 1fr;
+  }
+  .snapp-toasts {
+    inset: auto 16px 16px auto;
+  }
+  .snapp-calendar-popover {
+    padding: 8px;
+  }
+  .snapp-calendar-dialog {
+    max-width: 308px;
+  }
+  .snapp-select-trigger {
+    font-size: 16px !important;
+  }
+}
+@media (forced-colors: active) {
+  .snapp-text-frame,
+  .snapp-date-group,
+  .snapp-select-trigger,
+  .snapp-popover,
+  .snapp-toast {
+    border-color: ButtonText;
+  }
+  .snapp-text-frame:focus-within {
+    border: 2px solid Highlight;
+  }
+  .snapp-text-field[data-length-state="invalid"] .snapp-text-frame {
+    border: 2px dashed ButtonText;
+  }
+  .snapp-calendar-cell[data-selected],
+  .snapp-option[data-selected] {
+    outline: 2px solid Highlight;
+  }
+  .snapp-switch-track,
+  .snapp-switch-track > span {
+    forced-color-adjust: none;
+    background: Canvas;
+    border-color: ButtonText;
+  }
+  .snapp-switch-track > span {
+    background: ButtonText;
+  }
+  .snapp-slider-rail,
+  .snapp-slider-fill {
+    background: ButtonText;
+  }
+  .snapp-slider-thumb::after {
+    border-color: ButtonText;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .snapp-ui *,
+  .snapp-ui *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.snapp-range-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding-block: 8px;
+}
+.snapp-range-inputs > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.snapp-range-calendar .snapp-calendar-cell[data-selected] {
+  background: var(--raised);
+}
+.snapp-range-calendar .snapp-calendar-cell[data-selection-start],
+.snapp-range-calendar .snapp-calendar-cell[data-selection-end] {
+  background: var(--selection);
+  color: var(--selection-text);
+}

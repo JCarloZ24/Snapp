@@ -95,3 +95,12 @@ Target only: do not perform or narrate pending screens/actions as working. Until
 
 ## Reviewer evidence
 Paste URLs only after real proof exists: live site `TBD`, repo `TBD`, demo `TBD`, Noir authorize tx `TBD`, Noir claim tx `TBD`, Velo intent `TBD`.
+# Draft design library — 2026-11-06
+
+- [x] Implement categorized tokens, component/workflow specimens, motion and CSS 3D studies at `/dev/library`.
+- [x] Web typecheck and production build pass; root test command passes.
+- [x] Add custom controls, grapheme/date/cutoff validation, Paper ripple fix and 31 frontend behavior/validation tests.
+- [x] Run Impeccable source and both-theme rendered scan; document findings, fixes and intentional brand exceptions in [the audit](DESIGN_LIBRARY_AUDIT.md).
+- [ ] Complete browser visual, keyboard and touch QA; automation browser unavailable in this session.
+- [ ] Resolve existing server webhook Buffer/string mismatch before claiming a passing full-repository build.
+- [ ] Obtain company brand approval before product adoption. See [design library handoff](DESIGN_LIBRARY.md).

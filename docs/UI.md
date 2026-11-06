@@ -1,5 +1,9 @@
 # UI specification / component contracts
 
+Draft visual specimens are available at `/dev/library` when running the web development server. See [Design library](DESIGN_LIBRARY.md) for scope, local interactions and verification limits. They do not change the pending status of the product workflows below.
+
+Custom controls now live in `apps/web/src/components/ui/`: `SnappSelect`, `SnappDatePicker`, `SnappTextField`, `SnappSwitch`, `SnappSlider`, `SnappTabs`, and `SnappToastRegion`. Use their theme provider for portalled menus/calendars. The review/feedback examples validate before local simulated submission; future server endpoints must enforce their own authoritative contracts. See the [Impeccable audit](DESIGN_LIBRARY_AUDIT.md).
+
 ## Principles
 A practical owner-approved cutoff preparation and payment-transparency UI, connected by references to Proyekto rather than replacing its PM/invoicing features. Preserve manual owner judgment of hours and final release authority. **Visual brand direction is deferred** — see DESIGN.md.
 

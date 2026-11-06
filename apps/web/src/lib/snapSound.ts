@@ -1,3 +1,4 @@
+import { soundTokens } from "./soundTokens";
 // Snapp approval sound, synthesized with the Web Audio API (no recorded or licensed sample).
 // Sequence: an air-suction swell while the owner holds, then a crisp snap with a short reverb tail.
 // The product default is sound OFF (see SNAPP_BRAND.md, section 8); callers decide when to play.
@@ -8,7 +9,7 @@
 const SILENT = 0.0001; // exponential ramps can't reach 0
 
 let live: AudioContext | null = null;
-const rooms = new WeakMap<BaseAudioContext, ConvolverNode>();
+const rooms = new WeakMap<AudioNode, ConvolverNode>();
 
 function audio(): AudioContext {
   if (!live) live = new AudioContext();
@@ -25,10 +26,10 @@ function noise(c: BaseAudioContext, seconds: number): AudioBuffer {
 }
 
 /** A small, soft room: dark (low-passed), decaying stereo noise used as the impulse response. */
-function room(c: BaseAudioContext): ConvolverNode {
-  const cached = rooms.get(c);
+function room(c: BaseAudioContext, destination: AudioNode): ConvolverNode {
+  const cached = rooms.get(destination);
   if (cached) return cached;
-  const seconds = 0.8;
+  const seconds = soundTokens.tailMs / 1000;
   const length = Math.floor(c.sampleRate * seconds);
   const smoothing = 1 - Math.exp((-2 * Math.PI * 2200) / c.sampleRate); // one-pole low-pass ~2.2 kHz
   const ir = c.createBuffer(2, length, c.sampleRate);
@@ -42,15 +43,21 @@ function room(c: BaseAudioContext): ConvolverNode {
   }
   const node = c.createConvolver();
   node.buffer = ir;
-  node.connect(c.destination);
-  rooms.set(c, node);
+  node.connect(destination);
+  rooms.set(destination, node);
   return node;
 }
 
 export type Suction = { stop: () => void };
 
 /** Air being drawn in: band-passed noise that rises in pitch and level over the hold. */
-export function scheduleSuction(c: BaseAudioContext, at: number, holdMs: number, volume = 1): Suction {
+export function scheduleSuction(
+  c: BaseAudioContext,
+  at: number,
+  holdMs: number,
+  volume = 1,
+  destination: AudioNode = c.destination,
+): Suction {
   const dur = holdMs / 1000;
   const peak = Math.max(SILENT, 0.3 * volume);
 
@@ -68,7 +75,7 @@ export function scheduleSuction(c: BaseAudioContext, at: number, holdMs: number,
   gain.gain.exponentialRampToValueAtTime(peak, at + dur);
   gain.gain.linearRampToValueAtTime(SILENT, at + dur + 0.015); // cut off right as the snap lands
 
-  src.connect(band).connect(gain).connect(c.destination);
+  src.connect(band).connect(gain).connect(destination);
   src.start(at);
   src.stop(at + dur + 0.05);
 
@@ -78,7 +85,10 @@ export function scheduleSuction(c: BaseAudioContext, at: number, holdMs: number,
       const t = c.currentTime;
       gain.gain.cancelScheduledValues(t);
       gain.gain.setValueAtTime(gain.gain.value, t);
-      gain.gain.linearRampToValueAtTime(SILENT, t + 0.06);
+      gain.gain.linearRampToValueAtTime(
+        SILENT,
+        t + soundTokens.cancelMs / 1000,
+      );
       try {
         src.stop(t + 0.07);
       } catch {
@@ -95,7 +105,13 @@ export function scheduleSuction(c: BaseAudioContext, at: number, holdMs: number,
  * - a small, dark room at a low level.
  * `pitch` scales every frequency: below 1 is lower and rounder, above 1 brighter.
  */
-export function scheduleSnap(c: BaseAudioContext, at: number, volume = 1, pitch = 1): void {
+export function scheduleSnap(
+  c: BaseAudioContext,
+  at: number,
+  volume = 1,
+  pitch = 1,
+  destination: AudioNode = c.destination,
+): void {
   const bus = c.createGain();
   bus.gain.value = volume * 0.8; // headroom: keeps the peak well under clipping at full volume
 
@@ -104,15 +120,18 @@ export function scheduleSnap(c: BaseAudioContext, at: number, volume = 1, pitch 
   click.buffer = noise(c, 0.04);
   const band = c.createBiquadFilter();
   band.type = "bandpass";
-  band.frequency.value = 1200 * pitch;
+  band.frequency.value = soundTokens.clickHz * pitch;
   band.Q.value = 1.6;
   const soften = c.createBiquadFilter();
   soften.type = "lowpass";
-  soften.frequency.value = 3500 * pitch;
+  soften.frequency.value = soundTokens.lowpassHz * pitch;
   const clickEnv = c.createGain();
   clickEnv.gain.setValueAtTime(SILENT, at);
   clickEnv.gain.exponentialRampToValueAtTime(1.1, at + 0.001);
-  clickEnv.gain.exponentialRampToValueAtTime(SILENT, at + 0.022);
+  clickEnv.gain.exponentialRampToValueAtTime(
+    SILENT,
+    at + soundTokens.clickMs / 1000,
+  );
   click.connect(band).connect(soften).connect(clickEnv).connect(bus);
   click.start(at);
   click.stop(at + 0.04);
@@ -120,8 +139,11 @@ export function scheduleSnap(c: BaseAudioContext, at: number, volume = 1, pitch 
   // Palm pop.
   const pop = c.createOscillator();
   pop.type = "sine";
-  pop.frequency.setValueAtTime(520 * pitch, at);
-  pop.frequency.exponentialRampToValueAtTime(360 * pitch, at + 0.025);
+  pop.frequency.setValueAtTime(soundTokens.popStartHz * pitch, at);
+  pop.frequency.exponentialRampToValueAtTime(
+    soundTokens.popEndHz * pitch,
+    at + 0.025,
+  );
   const popEnv = c.createGain();
   popEnv.gain.setValueAtTime(SILENT, at);
   popEnv.gain.exponentialRampToValueAtTime(0.3, at + 0.0015);
@@ -134,29 +156,35 @@ export function scheduleSnap(c: BaseAudioContext, at: number, volume = 1, pitch 
   const thud = c.createOscillator();
   thud.type = "sine";
   thud.frequency.setValueAtTime(150 * pitch, at);
-  thud.frequency.exponentialRampToValueAtTime(85 * pitch, at + 0.06);
+  thud.frequency.exponentialRampToValueAtTime(
+    85 * pitch,
+    at + soundTokens.cancelMs / 1000,
+  );
   const thudEnv = c.createGain();
   thudEnv.gain.setValueAtTime(SILENT, at);
-  thudEnv.gain.exponentialRampToValueAtTime(0.5, at + 0.004);
-  thudEnv.gain.exponentialRampToValueAtTime(SILENT, at + 0.09);
+  thudEnv.gain.exponentialRampToValueAtTime(soundTokens.thudGain, at + 0.004);
+  thudEnv.gain.exponentialRampToValueAtTime(
+    SILENT,
+    at + soundTokens.bodyMs / 1000,
+  );
   thud.connect(thudEnv).connect(bus);
   thud.start(at);
-  thud.stop(at + 0.1);
+  thud.stop(at + soundTokens.bodyMs / 1000 + 0.01);
 
   // Warmth: lift everything under ~250 Hz.
   const warmth = c.createBiquadFilter();
   warmth.type = "lowshelf";
   warmth.frequency.value = 250 * pitch;
-  warmth.gain.value = 5;
+  warmth.gain.value = soundTokens.warmthDb;
   bus.connect(warmth);
 
   // Dry signal, plus a quiet, pre-delayed send into the small room for the tail.
-  warmth.connect(c.destination);
+  warmth.connect(destination);
   const preDelay = c.createDelay(0.1);
   preDelay.delayTime.value = 0.015;
   const wet = c.createGain();
-  wet.gain.value = 0.22;
-  warmth.connect(preDelay).connect(wet).connect(room(c));
+  wet.gain.value = soundTokens.wetGain;
+  warmth.connect(preDelay).connect(wet).connect(room(c, destination));
 }
 
 /** Live playback: start the suction now. */
