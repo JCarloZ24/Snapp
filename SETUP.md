@@ -208,6 +208,16 @@ For optional Velo collection only, configure `VELO_API_KEY`/`VELO_WEBHOOK_SECRET
 | `TYPESAFE_AI_API_KEY`, `AI_GATEWAY_API_KEY` | agent CLI shell only | Jev Payout Risk & Review Agent (direct TypeSafe, else Vercel AI Gateway); no key => autopilot defers |
 | `SNAPP_AUTOPILOT_DISABLED` | agent CLI shell | `true` halts new autopilot executions |
 
+## 6a. Deploy (public URL is a submission requirement)
+Web and server deploy separately. Config is committed: [`vercel.json`](vercel.json) builds `apps/web` with an SPA fallback; [`render.yaml`](render.yaml) runs the Express server with `/api/health` as the health check. Both commands were verified locally (`npm ci` → `npm run build -w @agentpay/web` with `VITE_API_BASE` embedded, and `npm run start -w @agentpay/server` answering health with the CORS origin set).
+
+1. **Server first (Render):** New → Blueprint → this repo. Set `WEB_ORIGIN` and `PUBLIC_WEB_URL` to the Vercel URL you will use (you can update after step 2), `ADMIN_API_TOKEN` to a random secret, and leave `DEMO_MODE=true` unless you also set real `VELO_API_KEY`/`VELO_WEBHOOK_SECRET`. Note the service URL, e.g. `https://snapp-server.onrender.com`.
+2. **Web (Vercel):** Import the repo; the committed `vercel.json` supplies install/build/output. Add one environment variable: `VITE_API_BASE=https://snapp-server.onrender.com` (no trailing slash). Deploy, then put the resulting URL into Render's `WEB_ORIGIN`/`PUBLIC_WEB_URL` and redeploy the server.
+3. **Velo webhook:** in the Velo dashboard, set the endpoint to `https://snapp-server.onrender.com/api/webhooks/velo` and copy its signing secret into `VELO_WEBHOOK_SECRET`.
+4. **Verify from another device:** open the Vercel URL, run the agent decision preview (three `hold` results, no payment), then `curl https://snapp-server.onrender.com/api/health`.
+
+Limits: the Render free plan sleeps when idle and has no persistent disk, so `.data/collections.sqlite` resets on redeploy; attach a disk before relying on recorded collections. The deployed server holds only Velo/admin configuration. Noir role secrets, the Jev key and the Autopilot run stay in operator shells; nothing on the public host can move Testnet funds.
+
 ## 7. Four parallel workstreams (collaborative, not strict)
 - **UI/UX + Frontend — [JCarloZ24 (JC)](https://github.com/JCarloZ24):** `docs/DESIGN.md`, `docs/UI.md`, reusable components and frontend routes; cutoff review, private employee statements/discrepancies, client evaluation and per-item status views. Brand approval remains on hold; keep sample routes honestly labeled until replaced.
 - **API Integration — [Stobeeney](https://github.com/Stobeeney):** API contracts, shared types, server endpoints, frontend/API data wiring and Proyekto/Velo API integration; versioned reviews/calculations, auth/RBAC, immutable run approval and durable per-item records. Velo collections remain separate.

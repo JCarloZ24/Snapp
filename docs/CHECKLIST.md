@@ -98,7 +98,8 @@ Noir constraints reference: [official contracts documentation](https://github.co
 
 ## G. Demo and deadline (Philippine time UTC+8)
 - [ ] Team registration confirmed by organizers (handbook lists Nov 4 23:59 deadline; may already be past)
-- [ ] Deployed web URL loads from a separate device (required)
+- [x] Deploy config committed and verified locally: `vercel.json` (web, SPA fallback, `VITE_API_BASE` embedded at build) and `render.yaml` (server, `/api/health` check, CORS origin from `WEB_ORIGIN`); steps in [SETUP §6a](../SETUP.md)
+- [ ] Deployed web URL loads from a separate device (required): needs Vercel + Render accounts and the env values in SETUP §6a
 - [ ] Deployed server HTTPS webhook receives verified event
 - [ ] Public repo links source files + docs + exact SDK versions
 - [ ] README sections completed with real URLs, screenshots, credits
