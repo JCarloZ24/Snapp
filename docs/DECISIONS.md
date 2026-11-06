@@ -44,3 +44,26 @@ Verification also exercised all 21 workspace tests, scaffold checks, agent typec
 
 ## Nov 6, 2026 — Snapp Autopilot: Jev as Payout Risk & Review Agent, rules as Payment Eligibility Engine
 Requirement #1 of the handbook needs the agent, not a human click, to decide the payment. The owner keeps deciding recipient and amount (signed manifest); the agent decides whether and when that exact item executes. Deterministic code owns every financial condition (approval validity, binding, `evaluateMilestone`, payout date, chain readiness, allowlist, budget). Jev through the Vercel AI SDK `experimental_decide` (`ai@7.0.163`; direct `@ai-sdk/typesafe-ai@3.0.34` pinned to `jev-1.14.0`, not the moving `jev-latest` alias, or AI Gateway `typesafe-ai/jev` as fallback because TypeSafe sign-ups are waitlisted) is consulted last and only reads the deliverable title, acceptance criteria and review text; it answers structured questions and can only move a verdict to `DEFER` or `ESCALATE`. Thresholds sit on the probability of the acted-on option per TypeSafe guidance and are untuned starting points. Jev unavailable, unauthenticated or malformed → `DEFER`, never pay and never escalate on an outage. No LLM judges hours, wages or recipients. Verdicts are append-only in the journal. The runner lives in the CLI (`assess`, `autopilot --every`) because the HTTP payout path was deliberately removed; a server job or web queue would require authentication first. Emergency stop: `SNAPP_AUTOPILOT_DISABLED=true`.
+
+## Design library review surface — 2026-11-06
+
+Implement the user-requested Snapp v0.2 brand exploration as an isolated development-only `/dev/library` route. Preserve neutral product styling pending company approval. Use CSS 3D for the three interactive spatial studies, with no WebGL dependency; keep money and approval controls in HTML. All workflow states are fictional local specimens. See [DESIGN_LIBRARY.md](DESIGN_LIBRARY.md) for verification and remaining review.
+
+## Custom-control hardening — 2026-11-06
+
+Use Snapp-authored visual controls over unstyled React Aria behavior primitives for accessible dropdowns, calendar/date input, switches and sliders. Share runtime/export theme maps, keep field validity neutral (teal is only settlement), preserve over-limit text and validate local submissions explicitly. Impeccable's audit/harden/polish guidance and source/rendered detector informed the refinement; preserve required Geist typography and unconfirmed hatching despite generic detector warnings. See [audit evidence and remaining release checks](DESIGN_LIBRARY_AUDIT.md). No server/payment safeguards are implied by client specimen validation.
+
+
+### Loading logo motion exception (2026-11-06)
+
+The owner explicitly requested repeating logo-derived figures for loading. The dev library loader may loop the original two arcs through infinity-like linked and open-orbit poses while pending, overriding the draft brand no-loop rule for this loading specimen only. The static logo artwork and one-shot motion sting remain unchanged. Reduced motion renders the original static Slip S; resolution/failure unmounts the loop immediately. CSS transforms only, six-second sequence, no extra motion dependency or per-frame React updates.
+
+
+### Report outcome colors (2026-11-06)
+
+Per owner direction, the draft library extends Volt into a report-positive alias for explicitly passed completeness checks, paired with Red for failed checks requiring correction and Amber for pending checks. Text/icons distinguish these from owner actions. Teal remains exclusive to confirmed settlement. Hours, headcount and proposed money are neutral quantities, not automatically positive when increasing. Fixture outcomes are illustrative; they neither approve hours nor authorize payment.
+
+
+### Recorded logo snap and sound library (2026-11-06)
+
+Owner feedback supersedes the draft synthesis-only direction for the library logo: use Vinrax's CC0 real finger snap, with local provenance and original asset, as the default. Keep the synthetic version explicitly identified as fallback/comparison. The recording is decoded before starting the logo and scheduled at its 310 ms release, without added synthesis/reverb. Audio remains opt-in, cancellable, and silent for loading loops and data updates. Sound values and asset metadata are exported from `apps/web/src/lib/soundTokens.ts` and downloadable from the library. No payment state is inferred from playing audio.

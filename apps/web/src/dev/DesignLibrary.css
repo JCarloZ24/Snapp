@@ -1,0 +1,1672 @@
+.snapp-library {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --raised: #1a1a25;
+  --border: #2a2a38;
+  --text: #f6f6f2;
+  --muted: #8a8a9e;
+  --human: #d4ff3f;
+  --agent: #8f7bff;
+  --settled: #1fc7a2;
+  --attention: #ffb020;
+  --stop: #ff5468;
+  --focus: #d4ff3f;
+  --logo-release: #d4ff3f;
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: "Geist Variable", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+  color-scheme: dark;
+}
+.snapp-library[data-snapp-theme="light"] {
+  --bg: #f6f6f2;
+  --surface: #fff;
+  --raised: #ededf2;
+  --border: #d9d9e3;
+  --text: #0a0a0f;
+  --muted: #5c5c70;
+  --agent: #5a3ff0;
+  --settled: #0a7a63;
+  --attention: #9a5b00;
+  --stop: #c21f3a;
+  --focus: #5a3ff0;
+  --logo-release: #0a0a0f;
+  color-scheme: light;
+}
+.snapp-library * {
+  box-sizing: border-box;
+}
+.snapp-library h1,
+.snapp-library h2,
+.snapp-library h3,
+.snapp-library p {
+  margin: 0;
+}
+.snapp-library h1,
+.snapp-library h2 {
+  font-family: "Sora Variable", sans-serif;
+}
+.snapp-library h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.snapp-library p {
+  color: var(--muted);
+}
+.snapp-library button,
+.snapp-library input,
+.snapp-library select,
+.snapp-library textarea {
+  font: inherit;
+}
+.snapp-library button {
+  color: inherit;
+}
+.snapp-library button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.snapp-library button,
+.snapp-library a,
+.snapp-library input,
+.snapp-library select {
+  touch-action: manipulation;
+}
+.snapp-library :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.snapp-library code,
+.snapp-library .lib-money {
+  font-family: "Geist Mono Variable", monospace;
+  font-variant-numeric: tabular-nums;
+}
+.snapp-library small {
+  font-size: 12px;
+}
+.snapp-library svg {
+  stroke-width: 1.5;
+}
+.snapp-library .lib-logo svg,
+.snapp-library svg[aria-label="Snapp"] {
+  stroke-width: 7;
+  stroke-linecap: butt;
+}
+.lib-sidebar {
+  width: 236px;
+  position: fixed;
+  inset: 0 auto 0 0;
+  padding: 38px 24px 24px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  z-index: 10;
+}
+.lib-logo {
+  width: 118px;
+  height: auto;
+  display: block;
+}
+.lib-edition {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  margin: 24px 0 32px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+.lib-edition span {
+  letter-spacing: 0;
+}
+.lib-sidebar nav {
+  display: grid;
+  gap: 3px;
+}
+.lib-sidebar nav a {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.lib-sidebar nav a:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.lib-sidebar nav a.selected {
+  background: var(--raised);
+  color: var(--text);
+}
+
+.lib-new {
+  font: 12px "Geist Mono Variable";
+  border: 1px solid var(--border);
+  padding: 1px 4px;
+  margin-left: auto;
+}
+.lib-sidebar-bottom {
+  margin-top: auto;
+  font-size: 12px;
+  color: var(--muted);
+  padding-top: 28px;
+}
+.lib-sidebar-bottom p {
+  margin-top: 10px;
+}
+.lib-sidebar-bottom a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  min-height: 44px;
+}
+.lib-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--attention);
+  border-radius: 50%;
+  margin-right: 7px;
+}
+.lib-workspace {
+  margin-left: 236px;
+}
+.lib-toolbar {
+  min-height: 76px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  gap: 24px;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+.lib-search {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex: 1;
+  color: var(--muted);
+}
+.lib-search input {
+  background: none;
+  border: 0;
+  outline-offset: 6px;
+  color: var(--text);
+  width: 100%;
+  min-width: 100px;
+  font-size: 12px;
+  min-height: 44px;
+}
+.lib-toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+.lib-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.lib-main {
+  padding: 0 40px;
+  max-width: 1360px;
+  margin: auto;
+}
+
+.lib-section {
+  padding: 54px 0;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 86px;
+}
+.lib-section-heading {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.lib-section-heading h2 {
+  font-size: 25px;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+.lib-section-heading p {
+  font-size: 13px;
+  margin-top: 6px;
+}
+.lib-hero {
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  padding: 30px 0 45px;
+  align-items: center;
+  gap: 30px;
+}
+
+.lib-hero .lib-hero-title {
+  font-size: clamp(32px, 3.5vw, 54px);
+  line-height: 1.17;
+  letter-spacing: -0.04em;
+  margin: 25px 0 20px;
+  font-weight: 600;
+}
+.lib-hero .lib-hero-title span {
+  color: var(--muted);
+}
+.lib-hero p {
+  line-height: 1.8;
+}
+.lib-hero .lib-button {
+  margin-top: 28px;
+}
+.lib-hero-mark {
+  height: 270px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+}
+.lib-hero-mark svg {
+  height: 154px;
+  width: 120px;
+}
+.lib-hero-mark span {
+  font: 12px "Geist Mono Variable";
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+.lib-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  background: var(--raised);
+  border-radius: 8px;
+  font-weight: 500;
+  transition:
+    background 125ms,
+    transform 60ms;
+}
+.lib-button:hover {
+  filter: brightness(1.12);
+}
+.lib-button:active {
+  transform: scale(0.97);
+}
+.snapp-library .lib-button.primary {
+  background: var(--human);
+  color: #0a0a0f;
+  border-color: var(--human);
+}
+.lib-button.danger {
+  color: var(--stop);
+}
+.lib-principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-block: 1px solid var(--border);
+}
+.lib-principles > div {
+  padding: 25px 20px 25px 0;
+}
+.lib-principles > div + div {
+  border-left: 1px solid var(--border);
+  padding-left: 24px;
+}
+.lib-principles span {
+  font: 12px "Geist Mono Variable";
+  letter-spacing: 0.03em;
+}
+.lib-principles h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.lib-principles p {
+  font-size: 12px;
+  line-height: 1.7;
+}
+.human {
+  color: var(--human);
+}
+[data-snapp-theme="light"] .human {
+  color: #5e7500;
+}
+.snapp-library .agent {
+  color: var(--agent-text);
+}
+.settled {
+  color: var(--settled);
+}
+.attention {
+  color: var(--attention);
+}
+.stop {
+  color: var(--stop);
+}
+.lib-disclaimer {
+  font-size: 12px;
+  margin-top: 22px !important;
+  max-width: 680px;
+}
+.lib-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.lib-grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.lib-panel {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--surface);
+  min-width: 0;
+}
+.lib-panel > h3 {
+  margin-bottom: 22px;
+  font-size: 13px;
+}
+.lib-note {
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 18px !important;
+}
+.lib-grid + .lib-panel,
+.lib-spatial-layout + .lib-panel,
+.lib-preview-outer + .lib-panel {
+  margin-top: 16px;
+}
+.lib-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.lib-logo-board {
+  height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+.lib-logo-board svg {
+  width: 180px;
+}
+.lib-logo-board.ink {
+  background: #0a0a0f;
+  color: #f6f6f2;
+}
+.lib-logo-board.paper {
+  background: #f6f6f2;
+  color: #0a0a0f;
+}
+.lib-mark-family {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  height: 120px;
+}
+.lib-mark-family svg:first-child {
+  height: 72px;
+  width: 52px;
+}
+.lib-mark-family svg:nth-child(2) {
+  height: 20px;
+  width: 16px;
+}
+.lib-mark-family span {
+  font: 12px "Geist Mono Variable";
+  color: var(--muted);
+}
+.lib-facts {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 12px;
+  font-size: 12px;
+  margin: 0;
+}
+.lib-facts dt {
+  color: var(--muted);
+}
+.lib-facts dd {
+  margin: 0;
+  text-align: right;
+}
+.snapp-library details {
+  margin-top: 20px;
+}
+.snapp-library summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 12px 0;
+}
+.lib-source-sheet {
+  width: 100%;
+  max-width: 680px;
+  background: #fff;
+  border-radius: 12px;
+}
+.lib-palette {
+  margin-bottom: 30px;
+}
+.lib-palette > h3 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+.lib-palette h3 span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+.lib-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(114px, 1fr));
+  gap: 12px;
+}
+.lib-swatch {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0;
+  text-align: left;
+  overflow: hidden;
+  min-height: 138px;
+}
+.lib-swatch > span {
+  display: block;
+  height: 76px;
+  border-bottom: 1px solid var(--border);
+}
+.lib-swatch strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 10px 10px 4px;
+}
+.lib-swatch code {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0 10px 10px;
+}
+.lib-table-wrap {
+  overflow: auto;
+}
+.snapp-library table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.snapp-library th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 12px;
+}
+.snapp-library td,
+.snapp-library th {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.snapp-library td small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+  font-size: 12px;
+}
+.snapp-library td.lib-money {
+  text-align: right;
+  white-space: nowrap;
+}
+.lib-type-row {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.lib-type-row small {
+  display: block;
+  color: var(--muted);
+  margin-top: 8px;
+  font-size: 12px;
+}
+.lib-type-row code {
+  font-size: 12px;
+}
+.lib-type-specimen {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.lib-space-list {
+  display: grid;
+  gap: 12px;
+}
+.lib-space-list > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.lib-space-list code {
+  width: 76px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.lib-space-list span {
+  height: 16px;
+  background: var(--agent);
+  opacity: 0.7;
+}
+.lib-space-list small {
+  margin-left: auto;
+  color: var(--muted);
+}
+.lib-radius-list {
+  display: flex;
+  gap: 16px;
+}
+.lib-radius-list > div {
+  border: 1px solid var(--muted);
+  height: 64px;
+  width: 64px;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  font-family: "Geist Mono Variable";
+}
+.lib-radius-list small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.lib-panel > p {
+  margin-top: 16px;
+  font-size: 13px;
+}
+.lib-elevation {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+.lib-elevation span {
+  padding: 18px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+}
+.lib-elevation span:first-child {
+  background: var(--bg);
+}
+.lib-elevation span:last-child {
+  background: var(--raised);
+}
+[data-snapp-theme="light"] .lib-elevation span:last-child {
+  box-shadow: 0 4px 12px #0a0a0f12;
+}
+.lib-grid-sample {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+.lib-grid-sample > div {
+  height: 90px;
+  background: var(--raised);
+  color: var(--muted);
+  text-align: center;
+  padding-top: 35px;
+  font: 12px "Geist Mono Variable";
+}
+.lib-slip {
+  display: flex;
+  height: 70px;
+  align-items: center;
+}
+.lib-slip span {
+  height: 1px;
+  background: var(--muted);
+  flex: 1;
+}
+.lib-slip i {
+  width: 20px;
+  height: 8px;
+  border-top: 1px solid var(--muted);
+  border-right: 1px solid var(--muted);
+  transform: translateY(4px);
+}
+.lib-slip span:last-child {
+  transform: translateY(8px);
+}
+.lib-transient {
+  height: 70px;
+  width: 100%;
+  fill: none;
+  stroke: var(--agent-text);
+}
+.lib-rings {
+  height: 70px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.lib-rings i {
+  position: absolute;
+  border: 1px solid var(--muted);
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  opacity: 0.6;
+}
+.lib-rings i:nth-child(2) {
+  height: 48px;
+  width: 48px;
+  opacity: 0.3;
+}
+.lib-rings i:nth-child(3) {
+  height: 70px;
+  width: 70px;
+  opacity: 0.15;
+}
+.lib-ticks {
+  height: 45px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.lib-ticks i {
+  height: 12px;
+  width: 1px;
+  background: var(--muted);
+}
+.lib-ticks i:nth-child(5n + 1) {
+  height: 22px;
+  background: var(--agent);
+}
+.lib-evidence {
+  border: 1px solid var(--border);
+  padding: 18px;
+  position: relative;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  margin-top: 30px;
+}
+.lib-hatch {
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 7px,
+    color-mix(in srgb, var(--attention) 8%, transparent) 7px,
+    color-mix(in srgb, var(--attention) 8%, transparent) 8px
+  );
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid color-mix(in srgb, var(--attention) 40%, transparent);
+  border-radius: 8px;
+  color: var(--attention);
+}
+.lib-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.lib-badge.neutral {
+  color: var(--muted);
+}
+
+.lib-feedback {
+  font-size: 13px;
+  color: var(--muted);
+  padding: 16px 0;
+  border: 0;
+  border-radius: 0;
+  min-height: 80px;
+}
+.lib-pattern-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.lib-pattern-toolbar > label {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+}
+.lib-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.lib-tabs button {
+  background: none;
+  border: 1px solid transparent;
+  min-height: 44px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.lib-tabs button[aria-selected="true"] {
+  background: var(--raised);
+  color: var(--text);
+  border-color: var(--border);
+}
+.lib-preview-outer {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+.lib-preview {
+  container-type: inline-size;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  margin: auto;
+  width: 100%;
+  transition: none;
+}
+.lib-preview-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.lib-stage-bar {
+  display: flex;
+  gap: 16px;
+  margin: 28px 0 20px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font: 12px "Geist Mono Variable";
+}
+.lib-stage-bar .current {
+  color: var(--agent-text);
+}
+.lib-preview h3 {
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.lib-preview p {
+  margin: 16px 0;
+}
+.lib-statement {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.lib-statement strong {
+  font-size: 28px;
+}
+.lib-preview .lib-facts {
+  margin-bottom: 24px;
+}
+.lib-result {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  flex-wrap: wrap;
+}
+.lib-result.lib-hatch {
+  padding: 18px;
+}
+.lib-approval {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.lib-approval h3 {
+  font-size: 20px;
+  margin: 16px 0;
+}
+.lib-approval p {
+  margin: 16px 0;
+  font: 12px/1.8 "Geist Mono Variable";
+}
+.lib-approval small {
+  color: var(--muted);
+}
+.lib-total {
+  font: 24px "Geist Mono Variable";
+  overflow-wrap: anywhere;
+}
+.lib-hold {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+.lib-hold svg {
+  height: 18px;
+  width: 16px;
+}
+.lib-hold:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0a0a0f1a;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.lib-hold.holding:before {
+  transform: scaleX(1);
+  transition: transform 750ms linear;
+}
+.lib-text-button {
+  background: none;
+  border: 0;
+  padding: 12px 0;
+  min-height: 44px;
+  font-size: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted) !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.lib-motion-stage {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  display: flex;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.lib-motion-stage > div:first-child {
+  position: relative;
+  width: 120px;
+  flex-shrink: 0;
+}
+.lib-motion-stage svg {
+  width: 90px;
+  height: 130px;
+  position: relative;
+  z-index: 1;
+}
+.lib-motion-stage h3 {
+  font-size: 24px;
+  margin: 10px 0;
+}
+.lib-motion-stage p {
+  margin: 10px 0 20px;
+  font-size: 12px;
+}
+.lib-sting .prep {
+  stroke-dasharray: 43;
+  stroke-dashoffset: 43;
+  animation: lib-draw 250ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+.lib-sting .release {
+  opacity: 0;
+  animation: lib-slip-in 125ms var(--ease-snap) 310ms forwards;
+}
+.lib-sting .lib-motion-echo {
+  position: absolute;
+  inset: 30px 10px;
+  border: 1px solid var(--ripple);
+  border-radius: 50%;
+  opacity: 0;
+  animation: lib-echo 375ms var(--ease-snap) 310ms;
+}
+.lib-duration-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.lib-duration-grid > div {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  overflow: hidden;
+}
+.lib-duration-grid code {
+  font-size: 12px;
+  color: var(--muted);
+}
+.lib-duration-grid strong {
+  font: 24px "Geist Mono Variable";
+}
+.lib-duration-grid small {
+  font-size: 12px;
+  margin-left: 3px;
+  color: var(--muted);
+}
+.lib-duration-grid span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.lib-duration-grid i {
+  height: 2px;
+  background: var(--agent);
+}
+.lib-block-code {
+  display: block;
+  font-size: 12px;
+  margin-top: 5px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.lib-spatial-layout {
+  display: grid;
+  grid-template-columns: 1fr 270px;
+  gap: 16px;
+}
+.lib-spatial-stage {
+  min-height: 390px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle, var(--border) 1px, transparent 1px) 0 0/20px 20px,
+    var(--surface);
+  perspective: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 40px;
+}
+.lib-spatial-caption {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  font: 12px "Geist Mono Variable";
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.lib-3d-stack {
+  width: 250px;
+  height: 180px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--tilt) * -1)) rotateY(var(--tilt));
+  transition: transform 375ms var(--ease-snap);
+}
+.lib-3d-card {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--raised);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translateZ(calc(var(--layer) * var(--depth) * var(--spread)))
+    translateY(calc(var(--layer) * -20px * var(--spread)));
+  transition: transform 375ms var(--ease-snap);
+}
+.lib-3d-card:nth-child(2) {
+  border-color: var(--agent-text);
+  background: var(--surface);
+}
+.lib-3d-card:last-child {
+  border-color: var(--muted);
+  background: var(--bg);
+}
+.lib-3d-card span {
+  font: 12px "Geist Mono Variable";
+  color: var(--agent-text);
+}
+.lib-3d-card strong {
+  font-size: 16px;
+}
+.lib-3d-card small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.lib-release-study {
+  width: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--tilt));
+  display: grid;
+  gap: 12px;
+}
+.lib-release-study > div {
+  padding: 18px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 8px;
+  font: 12px "Geist Mono Variable";
+  transition:
+    transform 375ms var(--ease-snap),
+    border-color 125ms;
+}
+.lib-release-study.phase-0 > div:first-child,
+.lib-release-study.phase-1 > div:nth-child(2),
+.lib-release-study.phase-2 > div:nth-child(3) {
+  transform: translateZ(var(--depth));
+  border-color: var(--agent-text);
+}
+.lib-release-study.phase-2 > div:nth-child(3) {
+  border-color: var(--human);
+}
+.lib-release-study p {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 20px;
+}
+.lib-spatial-steps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--tilt));
+  width: 100%;
+}
+.lib-spatial-steps button {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px 12px;
+  text-align: left;
+  transition: transform 375ms var(--ease-snap);
+}
+.lib-spatial-steps button span {
+  display: block;
+  font: 12px "Geist Mono Variable";
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.lib-spatial-steps button.current {
+  transform: translateZ(var(--depth));
+  border-color: var(--agent-text);
+}
+.lib-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 16px;
+  font-size: 12px;
+}
+.lib-checklist li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.lib-checklist svg {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.lib-contrast {
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.lib-footer {
+  padding: 40px 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.lib-footer svg {
+  width: 80px;
+}
+.lib-footer p {
+  font-size: 12px;
+}
+.lib-footer span {
+  margin-left: auto;
+  font: 12px/1.7 "Geist Mono Variable";
+  color: var(--muted);
+  text-align: right;
+}
+.lib-dialog {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 500px;
+  width: calc(100% - 32px);
+}
+.lib-dialog::backdrop {
+  background: #000a;
+}
+.lib-dialog h2 {
+  font-size: 24px;
+  margin: 20px 0;
+}
+.lib-dialog p {
+  margin: 18px 0;
+}
+.lib-dialog-close {
+  background: none;
+  border: 0;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+.lib-skip {
+  position: fixed;
+  top: -60px;
+  left: 250px;
+  z-index: 30;
+  background: var(--human);
+  color: #0a0a0f;
+  padding: 12px;
+}
+.lib-skip:focus {
+  top: 10px;
+}
+@keyframes lib-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes lib-slip-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes lib-echo {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+.snapp-library[data-reduced="true"] *,
+.snapp-library[data-reduced="true"] *:before {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+.snapp-library[data-reduced="true"] .lib-sting .prep {
+  stroke-dashoffset: 0;
+}
+.snapp-library[data-reduced="true"] .lib-sting .release {
+  opacity: 1;
+}
+.snapp-library[data-reduced="true"] .lib-3d-stack {
+  height: auto;
+  display: grid;
+  gap: 8px;
+}
+.snapp-library[data-reduced="true"] .lib-3d-card {
+  position: static;
+  transform: none;
+  padding: 12px;
+  gap: 4px;
+}
+.snapp-library[data-reduced="true"] .lib-3d-card svg {
+  display: none;
+}
+@supports not (transform-style: preserve-3d) {
+  .lib-3d-stack {
+    height: auto;
+    display: grid;
+    gap: 8px;
+  }
+  .lib-3d-card {
+    position: static;
+    transform: none;
+  }
+}
+@container (max-width:450px) {
+  .lib-preview table,
+  .lib-preview tbody,
+  .lib-preview tr,
+  .lib-preview td {
+    display: block;
+  }
+  .lib-preview thead {
+    display: none;
+  }
+  .lib-preview td {
+    border: 0;
+    padding: 4px 0;
+  }
+  .lib-preview tr {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+  }
+  .lib-preview td:nth-child(2):before {
+    content: "Submitted: ";
+  }
+  .lib-preview td:nth-child(3):before {
+    content: "Reviewed: ";
+  }
+  .lib-preview td.lib-money {
+    text-align: left;
+  }
+  .lib-preview .lib-facts {
+    grid-template-columns: 1fr;
+  }
+  .lib-preview dd {
+    text-align: left;
+  }
+}
+@media (max-width: 1100px) {
+  .lib-sidebar {
+    width: 200px;
+    padding-inline: 18px;
+  }
+  .lib-workspace {
+    margin-left: 200px;
+  }
+  .lib-main {
+    padding-inline: 28px;
+  }
+  .lib-toolbar {
+    padding-inline: 28px;
+    gap: 16px;
+  }
+  .lib-toolbar-actions {
+    gap: 8px;
+  }
+  .lib-hero {
+    grid-template-columns: 1fr 180px;
+  }
+  .lib-hero-mark {
+    height: 240px;
+  }
+  .lib-duration-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .lib-grid.three {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .lib-spatial-layout {
+    grid-template-columns: 1fr;
+  }
+  .lib-spatial-layout > .lib-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .lib-spatial-layout > .lib-panel h3,
+  .lib-spatial-layout > .lib-panel p {
+    grid-column: 1/-1;
+  }
+  .lib-type-row {
+    grid-template-columns: 135px 1fr;
+  }
+  .lib-grid-sample {
+    gap: 12px;
+  }
+}
+@media (max-width: 760px) {
+  .lib-sidebar {
+    position: relative;
+    width: 100%;
+    padding: 20px 20px 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lib-logo {
+    width: 96px;
+  }
+  .lib-edition {
+    position: absolute;
+    right: 20px;
+    top: 22px;
+    margin: 0;
+    gap: 12px;
+  }
+  .lib-sidebar nav {
+    display: flex;
+    overflow-x: auto;
+    margin-top: 16px;
+    padding-bottom: 10px;
+  }
+  .lib-sidebar nav a {
+    white-space: nowrap;
+    min-height: 44px;
+  }
+
+  .lib-sidebar-bottom {
+    display: none;
+  }
+  .lib-workspace {
+    margin: 0;
+  }
+  .lib-toolbar {
+    padding: 8px 20px;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .lib-search {
+    flex-basis: 100%;
+  }
+  .lib-toolbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .lib-main {
+    padding-inline: 20px;
+  }
+  .lib-section {
+    padding: 36px 0;
+    scroll-margin-top: 125px;
+  }
+  .lib-section-heading h2 {
+    font-size: 22px;
+  }
+  .lib-hero {
+    grid-template-columns: 1fr;
+    padding-top: 10px;
+    gap: 20px;
+  }
+  .lib-hero .lib-hero-title {
+    font-size: 38px;
+  }
+  .lib-hero-mark {
+    height: 170px;
+  }
+  .lib-hero-mark svg {
+    height: 100px;
+  }
+  .lib-hero-mark span {
+    display: none;
+  }
+  .lib-principles {
+    grid-template-columns: 1fr;
+  }
+  .lib-principles > div,
+  .lib-principles > div + div {
+    border-left: 0;
+    padding: 20px 0;
+  }
+  .lib-principles > div + div {
+    border-top: 1px solid var(--border);
+  }
+  .lib-grid,
+  .lib-grid.three {
+    grid-template-columns: 1fr;
+  }
+  .lib-panel {
+    padding: 20px;
+  }
+  .lib-type-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .lib-type-row > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .lib-type-row small {
+    margin: 0;
+  }
+  .lib-type-specimen {
+    max-width: 100%;
+  }
+  .lib-preview-outer {
+    padding: 0;
+  }
+  .lib-preview {
+    padding: 18px;
+  }
+  .lib-stage-bar {
+    gap: 10px;
+    font-size: 12px;
+  }
+  .lib-total {
+    font-size: 20px;
+  }
+  .lib-approval {
+    gap: 24px;
+  }
+  .lib-motion-stage {
+    padding: 28px 20px;
+    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .lib-motion-stage svg {
+    height: 90px;
+  }
+  .lib-duration-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .lib-grid-sample {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .lib-grid-sample > div:nth-child(n + 5) {
+    display: none;
+  }
+  .lib-spatial-stage {
+    padding: 30px 20px;
+    min-height: 370px;
+  }
+  .lib-3d-stack {
+    width: 215px;
+    height: 175px;
+  }
+  .lib-spatial-layout > .lib-panel {
+    display: block;
+  }
+  .lib-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+  .lib-footer {
+    flex-wrap: wrap;
+  }
+  .lib-footer span {
+    flex-basis: 100%;
+    text-align: left;
+    margin: 0;
+  }
+  .lib-skip {
+    left: 20px;
+  }
+
+  .lib-palette h3 {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .lib-contrast {
+    flex-wrap: wrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .snapp-library *,
+  .snapp-library *:before {
+    animation: none !important;
+    transition: none !important;
+  }
+  .snapp-library .lib-sting .prep {
+    stroke-dashoffset: 0;
+  }
+  .snapp-library .lib-sting .release {
+    opacity: 1;
+  }
+}
+
+/* Refinement: readability, control consistency and theme-aware resonance. */
+.lib-page-title {
+  font-size: 18px !important;
+  font-family: "Geist Variable", sans-serif !important;
+  letter-spacing: 0;
+  margin: 28px 0 0 !important;
+  color: var(--muted);
+  font-weight: 500;
+}
+.lib-section-heading h2 {
+  font-size: 30px;
+}
+.lib-section-heading p {
+  font-size: 14px;
+  max-width: 70ch;
+}
+.lib-section-heading {
+  gap: 0;
+}
+.lib-viewport-select {
+  width: 160px;
+  min-width: 0;
+}
+.lib-preview-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+.lib-search input {
+  font-size: 14px;
+}
+.lib-search input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.lib-source-sheet {
+  height: auto;
+}
+.lib-motion-echo {
+  pointer-events: none;
+}
+.lib-sting .lib-motion-echo-second {
+  animation-delay: 370ms;
+}
+.lib-hero-title {
+  margin-top: 0 !important;
+  text-wrap: balance;
+}
+.lib-toolbar-actions .snapp-switch {
+  font-size: 12px;
+}
+.lib-evidence::before,
+.lib-evidence::after {
+  content: "";
+  position: absolute;
+  inset: -5px 4px 4px -5px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: -1;
+}
+.lib-evidence::after {
+  inset: -9px 8px 8px -9px;
+}
+.lib-evidence {
+  isolation: isolate;
+}
+.lib-toolbar button:hover {
+  background: var(--raised);
+}
+.snapp-library .lib-button:hover {
+  filter: none;
+  border-color: var(--control-border);
+}
+.snapp-library .lib-button.primary:hover {
+  background: var(--color-volt-300);
+}
+.snapp-library .lib-button.primary:active {
+  background: var(--color-volt-500);
+}
+.lib-motion-stage h3 {
+  font-family: "Sora Variable", sans-serif;
+  font-weight: 600;
+}
+@media (max-width: 760px) {
+  .lib-toolbar-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .lib-viewport-select {
+    width: 100%;
+  }
+  .lib-search input {
+    font-size: 16px;
+  }
+  .lib-section-heading h2 {
+    font-size: 24px;
+  }
+  .lib-radius-list {
+    flex-wrap: wrap;
+  }
+  .lib-panel {
+    overflow-wrap: anywhere;
+  }
+}
+
+.snapp-library p {
+  text-wrap: pretty;
+}
+.lib-spatial-caption {
+  background: var(--surface);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.lib-feedback.lib-hatch {
+  padding: 16px;
+  border: 1px solid var(--attention);
+  border-radius: 8px;
+}

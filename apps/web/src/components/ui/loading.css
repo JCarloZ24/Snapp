@@ -1,0 +1,100 @@
+/* Loading-only exception: the two original arcs form linked loops, open, and return. */
+.snapp-loading {
+  min-height: 280px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 16px;
+  color: var(--text);
+}
+.snapp-loading-mark {
+  width: 112px;
+  height: 112px;
+  overflow: visible;
+}
+.snapp-loading p {
+  margin: 0;
+  font-size: 14px;
+}
+.snapp-loading-orbit {
+  transform-origin: 2px -18px;
+  animation: snapp-loading-orbit calc(var(--dur-pulse, 500ms) * 12)
+    var(--ease-standard, ease-in-out) infinite;
+}
+.snapp-loading-upper {
+  transform-origin: 0px -27px;
+  animation: snapp-loading-upper calc(var(--dur-pulse, 500ms) * 12)
+    var(--ease-standard, ease-in-out) infinite;
+}
+.snapp-loading-lower {
+  transform-origin: 4px -9px;
+  animation: snapp-loading-lower calc(var(--dur-pulse, 500ms) * 12)
+    var(--ease-standard, ease-in-out) infinite;
+}
+/* Rest as Slip S, turn into a horizontal linked pair, unfold, then return.
+   Fixed SVG paths; only transforms animate. No frame callbacks or path morphing. */
+@keyframes snapp-loading-orbit {
+  0%,
+  12% {
+    transform: rotate(0deg);
+  }
+  30%,
+  42% {
+    transform: rotate(-90deg);
+  }
+  60%,
+  72% {
+    transform: rotate(-180deg);
+  }
+  90%,
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes snapp-loading-upper {
+  0%,
+  12%,
+  90%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  30%,
+  42% {
+    transform: translate(2px, 0) rotate(45deg);
+  }
+  60%,
+  72% {
+    transform: translate(-5px, -3px) rotate(135deg);
+  }
+}
+@keyframes snapp-loading-lower {
+  0%,
+  12%,
+  90%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  30%,
+  42% {
+    transform: translate(-2px, 0) rotate(45deg);
+  }
+  60%,
+  72% {
+    transform: translate(5px, 3px) rotate(135deg);
+  }
+}
+.snapp-loading[data-reduced="true"] * {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .snapp-loading * {
+    animation: none !important;
+  }
+}
+@media (forced-colors: active) {
+  .snapp-loading-mark path {
+    stroke: CanvasText;
+  }
+}
+/* Keep the brand's weight rather than inheriting the UI icon stroke. */
+.snapp-loading svg.snapp-loading-mark { stroke-width: 7; }
