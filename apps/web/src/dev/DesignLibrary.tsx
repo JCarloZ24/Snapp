@@ -38,13 +38,10 @@ import {
   spacing,
   themes,
   controlThemes,
-  themeVariables,
   tokenCSS,
   typography,
 } from "./libraryTokens";
-import "@fontsource-variable/sora";
-import "@fontsource-variable/geist";
-import "@fontsource-variable/geist-mono";
+import "../design/theme";
 import "./DesignLibrary.css";
 import {
   SnappControlProvider,
@@ -256,12 +253,10 @@ export default function DesignLibrary() {
           </section>
         ))
       : null;
-  const variables = themeVariables(theme) as CSSProperties;
   return (
-    <SnappControlProvider theme={theme} reduced={reduced} variables={variables}>
+    <SnappControlProvider theme={theme} reduced={reduced}>
       <div
         className="snapp-library snapp-ui"
-        style={variables}
         data-snapp-theme={theme}
         data-reduced={reduced}
       >

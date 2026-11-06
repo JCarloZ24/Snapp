@@ -5,7 +5,6 @@ import {
   useId,
   useRef,
   useState,
-  type CSSProperties,
   type ReactNode,
 } from "react";
 import {
@@ -55,17 +54,21 @@ import {
   XCircle,
 } from "lucide-react";
 import { textLength, validateText, type TextRules } from "./validation";
+import "../../design/tokens.css";
 import "./controls.css";
 
+/**
+ * Theme values come from src/design/tokens.css, selected by the
+ * data-snapp-theme attribute. Portalled overlays copy the attribute so they
+ * resolve the same aliases as the tree that opened them.
+ */
 type Theme = {
   theme: "dark" | "light";
   reduced: boolean;
-  variables: CSSProperties;
 };
 const ThemeContext = createContext<Theme>({
   theme: "dark",
   reduced: false,
-  variables: {},
 });
 export function SnappControlProvider({
   children,
@@ -78,11 +81,10 @@ export function SnappControlProvider({
   );
 }
 function useOverlayTheme() {
-  const { theme, reduced, variables } = useContext(ThemeContext);
+  const { theme, reduced } = useContext(ThemeContext);
   return {
     "data-snapp-theme": theme,
     "data-reduced": reduced,
-    style: variables,
   };
 }
 

@@ -21,7 +21,6 @@ import {
 } from "./SnappControls";
 import { ideaRules } from "./validation";
 import { ValidationExamples } from "../../dev/ValidationExamples";
-import { themeVariables } from "../../dev/libraryTokens";
 
 afterEach(() => vi.useRealTimers());
 describe("custom field states", () => {
@@ -130,11 +129,7 @@ describe("custom select and date picker", () => {
     const changed = vi.fn();
     const user = userEvent.setup();
     render(
-      <SnappControlProvider
-        theme="light"
-        reduced={false}
-        variables={themeVariables("light")}
-      >
+      <SnappControlProvider theme="light" reduced={false}>
         <SnappDatePicker
           label="Review date"
           value={parseDate("2026-11-06")}

@@ -1,4 +1,5 @@
 import "./loading.css";
+import "../../design/tokens.css";
 
 /** Mount for an actual pending operation; unmount when it resolves or fails. */
 export function SnappLoading({

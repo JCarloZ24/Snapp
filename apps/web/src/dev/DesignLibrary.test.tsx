@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import DesignLibrary from "./DesignLibrary";
+import { themeVariables } from "../design/tokens";
 
 afterEach(() => {
   vi.useRealTimers();
@@ -53,10 +54,10 @@ describe("library integration", () => {
     await user.click(
       screen.getByRole("button", { name: "Switch to Paper theme" }),
     );
+    // Theme aliases resolve from tokens.css by attribute, not inline styles.
     const root = document.querySelector(".snapp-library") as HTMLElement;
-    expect(root.style.getPropertyValue("--ripple")).toBe(
-      "var(--color-ink-950)",
-    );
+    expect(root).toHaveAttribute("data-snapp-theme", "light");
+    expect(themeVariables("light")["--ripple"]).toBe("var(--color-ink-950)");
     await user.click(replay);
     expect(document.querySelectorAll(".lib-motion-echo")).toHaveLength(2);
   });
