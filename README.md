@@ -22,7 +22,18 @@ The company already uses **Proyekto** for project/client collaboration, document
 ## Solution
 Snapp targets cutoff preparation, manual owner review, employee pay transparency and approved-run execution alongside Proyekto. Milestones bundle task/deliverable evidence and client evaluations; they are not the default unit of hourly employee pay. The owner retains hours review and final release authority. The agent cannot set wages or change approved recipients and amounts.
 
-**Current status:** the source is still a fictional, milestone-oriented starter with preview and payment adapters. Proyekto integration, cutoff review, client-evaluation history, employee statements, approved-run execution and bank payouts are **not implemented**. Live transaction proof has not been produced.
+**Current status:** fictional milestone previews and Velo adapters remain, alongside separate controlled **local Noir Testnet tooling**. The local CLI supports exact owner-signed single-item consent, owner setup, agent authorization, merchant claim, SQLite reconciliation and **Snapp Autopilot**: a Payment Eligibility Engine (deterministic rules) plus a Payout Risk & Review Agent (Jev) that decides when an owner-approved item is executed through Noir. It is not an authenticated payroll workflow. Proyekto integration, cutoff review, client-evaluation history, employee statements, approved pay runs, RBAC and bank payouts are **not implemented**. Live Testnet authorization/claim proof remains unverified.
+
+## How the agentic payment works
+The owner decides **how much** and **to whom**; the agent decides **whether and when** that approved item is executed. No human clicks "pay" in the autopilot path.
+
+1. **Owner approval (human).** The owner signs an exact manifest (recipient, amount, limits, expiry, asset, contracts) with `approve`. The agent cannot change any of those values.
+2. **Payment Eligibility Engine (deterministic, [payout-decision.ts](packages/agent/src/payout-decision.ts)).** For a payout record (the milestone, its payout date and the client's review text) it checks, in order: approval valid and unexpired → recipient/amount identical to the signed manifest → `evaluateMilestone` ([index.ts](packages/agent/src/index.ts)) says `pay` → payout date reached → autopilot not disabled → live Noir device/policy/escrow and `checkPayment` agree. Any failure yields `DEFER` (temporary: not yet approved, not due, insufficient escrow, Jev unavailable) or `ESCALATE` (needs a human: dispute, failed evidence, changed recipient/amount, expired approval, setup conflict).
+3. **Payout Risk & Review Agent (Jev, [payout-risk.ts](packages/agent/src/payout-risk.ts)).** Only if everything above passes, the agent sends the deliverable title, acceptance criteria and the review text to Jev through the Vercel AI SDK `experimental_decide` (`ai@7.0.163`): direct `@ai-sdk/typesafe-ai` with the model pinned to `jev-1.14.0` when `TYPESAFE_AI_API_KEY` is set, otherwise Vercel AI Gateway model `typesafe-ai/jev` with `AI_GATEWAY_API_KEY` and asks two structured questions: which review route fits (`routine | pending | escalate`) and whether an unresolved concern exists. Thresholds sit on the probability of the acted-on option (`routine ≥ 0.90`, concern ≤ 0.10 → execute; `pending ≥ 0.70` → defer; otherwise escalate). Jev can only make a payout stricter, never approve one; if it is unavailable the verdict is `DEFER`. No addresses, amounts, hashes or names are sent.
+4. **Execution (Noir SDK).** On `EXECUTE`, the same journaled `authorize` path runs: allowlist, cumulative-device budget under a SQLite lock, SDK `prepare` → agent-key signature → hash persisted **before** broadcast → `submit`. A recorded operation is never replayed.
+5. **Audit.** Every verdict is appended to an immutable `decisions` table with its stage, reason, input hash and Jev probabilities; `evidence` prints them next to the transaction records. The merchant still signs `claim` separately.
+
+Commands: `assess` (read-only verdict, no signer) and `autopilot --live --confirm <digest> [--every <seconds>]` (verdict + execution, re-evaluating deferred items on an interval). `SNAPP_AUTOPILOT_DISABLED=true` stops new executions. Thresholds are untuned starting points, not validated safety guarantees; a real Jev call requires `TYPESAFE_AI_API_KEY` or `AI_GATEWAY_API_KEY`. Live Jev answers were observed through Vercel AI Gateway on three sample reviews (accepted → EXECUTE, open revision → DEFER, dispute → ESCALATE); Vercel requires a card on file before the gateway serves requests. Live autopilot execution on Testnet still needs the owner setup prerequisites below.
 
 ## Target workflow
 1. Reference Proyekto projects, time entries and versioned deliverables. Record client comments, revision requests and acceptance against the evaluated version. Integration access still needs verification.
@@ -35,8 +46,8 @@ Client acceptance informs work review; it does **not** automatically determine w
 
 ## Company path versus hackathon path
 - **Company adoption:** verify the chosen bank's existing bulk-disbursement facility first, then generate its supported upload file from an approved run. Bank integration is not implemented. Preserve bank-native authorization; do not automate OTP entry or promise one authorization for every bank.
-- **Hackathon demonstration:** owner provisions and funds Noir Testnet escrow, then approves explicit Testnet items. The server enforces approved recipients, amounts and run budget; the agent calls `checkPayment` then `authorizePayment`. Each merchant separately signs `claim`. Authorization is not receipt.
-- **Optional client collections:** Velo checkout and signed-event reconciliation are separate from pay-run release and Noir funding. Velo's current [upstream scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope) is Testnet only, with no Mainnet or external settlement support. Neither integration sends PHP to employee bank accounts.
+- **Hackathon demonstration:** use separate local tooling for an exact owner-approved Testnet experiment, not a server pay-run endpoint. Owner signs consent and device/policy/funding steps; agent checks eligibility then prepares/signs/submits the SDK `authorize` operation; merchant separately signs `claim`. Local allowlisting and cumulative-device reservations are not a cutoff/run model. Authorization is not receipt.
+- **Optional client collections:** Velo checkout and signed-event verification remain separate from pay-run release and Noir funding; durable event reconciliation is still missing. Velo's current [upstream scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope) is Testnet only, with no Mainnet or external settlement support. Neither integration sends PHP to employee bank accounts.
 
 The differentiation to validate is work-to-payment traceability, not novel payroll rails. [BPI BizLink](https://www.bpi.com.ph/institutional-banking/cashflow-management/bizlink) already documents transaction-file upload and approval controls; [Sprout Payroll](https://sprout.ph/product/payroll-management/) documents timekeeping, employee payslips and bank-disbursement file generation. Company eligibility, costs and bank coverage need verification.
 
@@ -55,12 +66,14 @@ flowchart LR
 This is the target, not the current implementation. See [architecture notes](docs/ARCHITECTURE.md), [PRD](PRD.md), [current API](docs/API.md) and [integration guide](docs/INTEGRATIONS.md).
 
 ## Noir integration
-- Package: `@noirx402/agent-sdk` (resolved installed version **TBD after npm install**); `@stellar/stellar-sdk` v16.
-- Target **deployed** contracts: `device_registry`, `agent_registry`, `payment_escrow`. The official Noir SDK is required for all calls; **no custom contracts**.
-- Source: [Noir checkPayment/authorizePayment adapter](packages/agent/src/noir.ts), [decision rules](packages/agent/src/index.ts), [protected trigger](apps/server/src/index.ts).
-- Setup `registerDevice`, `registerAgent`, `fundEscrow`, and merchant `claim` are **not yet implemented in this scaffold**; must be demonstrated on actual Testnet before submission.
-- **Contract ID conflict warning:** earlier form IDs differ from official Nov 5 handbook and [Noir public reference](https://github.com/noirx402/noir/blob/main/docs/contracts.md). See [exact IDs / action plan](docs/INTEGRATIONS.md).
-- Noir's policy caps each payment and constrains asset/expiry; it does **not** enforce a recipient allowlist or cumulative cutoff budget. Approved-item binding and aggregate limits need application-side enforcement and are not implemented by the current adapter.
+- Pinned and installed: `@noirx402/agent-sdk@0.3.0` and `@stellar/stellar-sdk@16.0.1`. The installed SDK was compared with source commit `704f701a017b0b13f79898d2597df8c11fd4fa94`.
+- Fixed **Testnet only** configuration: native XLM and SDK `device_registry`, `agent_registry`, `payment_escrow` IDs. All contract calls use the official Noir SDK; **no custom contracts**, RPC overrides or Mainnet support.
+- Source: [SDK preparation/signing boundary](packages/agent/src/noir.ts), [local CLI](packages/agent/src/noir-cli.ts), [SQLite journal](packages/agent/src/noir-store.ts), [shared preview decision rules](packages/agent/src/index.ts).
+- Root entry point: `npm run noir -- <command>`. Commands are `plan`, `doctor`, `approve`, `setup --step device|policy|fund`, `check`, `authorize`, `claim`, `reconcile`, `evidence`, `assess`, `autopilot`; see [operator sequence](SETUP.md). There is **no HTTP Noir execution route**: the former milestone approval route returns 404, without a replacement.
+- Owner approval signs the exact public manifest/configuration digest. SQLite at repository-root `.data/noir-testnet.sqlite` serializes cumulative-device authorization reservations and persists transaction identity before broadcast. A recorded operation cannot be retried/reset, even if failed; uncertain outcomes are reconciled, never replayed. `--db` explicitly selects another journal; copying/deleting journals defeats local deduplication.
+- Merchant claim collects **all** pending funds for that merchant/token, with explicit pending-stroops confirmation; it is not one receipt per approved item. Evidence separates recorded hashes, confirmed transactions and matching authorization/claim events.
+- **Contract ID conflict warning:** pinned SDK/repository agreement and a read-only Testnet RPC check do **not** resolve the earlier form's differing IDs. Independent organizer/deployment verification is still required; see [exact IDs / action plan](docs/INTEGRATIONS.md). Set `NOIR_TESTNET_CONTRACTS_CONFIRMED=true` only after that verification, never just to bypass a gate.
+- Live writes additionally require `--live`, exact digest confirmation, valid local consent, a verified merchant allowlist and three distinct, manually funded Testnet role wallets. Secrets are inherited only in private role-specific shells, not arguments, chat, browser or server `.env`. No keys or funds are created automatically.
 
 ## Velo integration
 - This starter declares `@carts1024/velo-sdk@alpha` (resolved version unverified). The current upstream README describes stable `1.0.0`; this documentation update does not upgrade or validate the dependency. Compare actual exports before implementation.
@@ -69,13 +82,13 @@ This is the target, not the current implementation. See [architecture notes](doc
 - **Not complete:** durable event dedupe, retrieval/reconciliation and confirmed status writes.
 
 ## Testnet proof
-**TBD — not yet claimed.** Add at least one genuine [Stellar Expert Testnet](https://stellar.expert/explorer/testnet) transaction link showing *agent authorizing payment*; ideally also link device/policy, escrow funding, and merchant claim transactions. Do not treat fixture preview as proof.
+**Live Testnet unverified — no transaction proof claimed.** Collect genuine [Stellar Expert Testnet](https://stellar.expert/explorer/testnet) links and separate confirmed setup, authorization and merchant-claim ledgers/events after the live prerequisites are met. Neither fixture previews, synthetic SDK transport checks, pending balances nor a merely recorded hash is settlement proof.
 
 ## Repo structure
 ```
 apps/web/             React frontend + route views
 apps/server/          Express API, webhook, Velo checkout
-packages/agent/       Decision engine + Noir SDK adapter
+packages/agent/       Decision engine + controlled local Noir CLI and SQLite journal
 packages/shared/      Cross-app types
 docs/                 PRD references, UX, payment design, checklist
 scripts/              Local smoke check
@@ -93,14 +106,15 @@ scripts/              Local smoke check
 | Name | What it is | Where to get it |
 |---|---|---|
 | `PORT`, `WEB_ORIGIN`, `PUBLIC_WEB_URL` | Server config, safe origins | Set locally / hosting |
-| `DEMO_MODE` | Prevent payout/checkouts (`true` by default) | Local override |
+| `DEMO_MODE` | Prevent server Velo checkout (`true` by default); does not gate the separate Noir CLI | Local override |
 | `ADMIN_API_TOKEN` | Temporary privileged test API token; not production login | Create random local secret |
 | `VELO_API_KEY` | Velo Testnet checkout API | [Velo dashboard](https://www.velo-build.dev) |
 | `VELO_WEBHOOK_SECRET` | Velo signature verification | Velo webhook config |
-| `NOIR_DEVICE_HASH` | Official linked device hash | Owner-created with Noir SDK |
-| `NOIR_AGENT_PUBLIC_KEY` | Delegated Testnet agent address | Agent keypair |
-| `NOIR_AGENT_SECRET` | Delegated Testnet signer **server only** | Agent keypair (never commit) |
-| `ALLOWED_MERCHANT_ADDRESSES` | Verified merchant wallet allowlist | Operator-approved addresses |
+| `NOIR_OWNER_SECRET`, `NOIR_AGENT_SECRET`, `NOIR_MERCHANT_SECRET` | Separate local CLI role signers; read only by the command needing that role | Private inherited role-specific shell environment; never commit |
+| `ALLOWED_MERCHANT_ADDRESSES` | Independent verified merchant allowlist for local tooling | Operator-approved public addresses |
+| `NOIR_TESTNET_CONTRACTS_CONFIRMED` | Local operator attestation after independent contract verification; default `false` | See `packages/agent/.env.example`; never auto-loaded |
+| `TYPESAFE_AI_API_KEY` or `AI_GATEWAY_API_KEY` | Jev (Payout Risk & Review Agent); agent shell only. Direct key is preferred; gateway key is the fallback. No key makes every autopilot verdict `DEFER` | [TypeSafe console](https://console.typesafe.ai/keys) (sign-ups currently waitlisted) or [Vercel AI Gateway](https://vercel.com/docs/ai-gateway/getting-started) (requires a card on file) |
+| `SNAPP_AUTOPILOT_DISABLED` | Emergency stop: `true` defers every autopilot evaluation | Local override |
 | `VITE_API_BASE` | Public API server origin for split deployments | Set on web host; empty for dev proxy |
 
 ## Screenshots
@@ -114,4 +128,4 @@ For company use, evaluate supported bank bulk-disbursement and existing payroll 
 ## Credits
 Official project repos: [Noir](https://github.com/noirx402/noir) and [Velo](https://github.com/Velo-Ecosystem-Collection/Velo). SDK integration patterns follow the *Velo x Noir Agentic Payment Hackathon — Builder Handbook*, updated Nov 5, 2026. Uses React, Vite, Tailwind, Express, TypeScript and Stellar. Concept adapted for [Prodigitality](https://prodigitality.net/services). All code in this starter is a fresh scaffold, not a clone of either vendor repo.
 
-> **Starter validation note (Nov 5, 2026):** structural and JSON checks passed with `npm run check:scaffold`. Full dependency installation, TypeScript build, live Noir/Velo integration, and deployment have **not** been verified in this environment. Run the required commands on a supported Node version and treat missing integration work as open tasks.
+> **Controlled-tooling validation:** installed Noir 0.3.0/Stellar 16.0.1 and pinned source checked on Node 22.23.4. Twenty focused Noir tests and all 21 workspace tests passed, along with scaffold checks, agent typecheck, actual offline CLI consent/evidence/gate smoke and real-SDK synthetic-transport persistence/restart smoke. Read-only `doctor` confirmed Testnet configuration with `contractsAttested:false`. Real server health/projects/preview returned 200, removed approval POST returned 404, and browser preview showed three holds/local-tooling prose without errors. Web build passed; root typecheck/server build remain blocked by the unchanged Velo webhook `Buffer`-versus-`string` type mismatch at `apps/server/src/payments.ts:6`. Live authorization/claim and deployment remain unverified. See [verification details](docs/CHECKLIST.md#exercised-controlled-tooling-checks--not-live-gates).

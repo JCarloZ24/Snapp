@@ -9,14 +9,12 @@ Base local: `http://localhost:4000`. Routes tagged **implemented** are present i
 | GET | `/api/agent/preview/:projectId` | Pure deterministic hold/review/pay decision; **no payment** | No |
 | POST | `/api/payments/checkout` | Creates Velo Testnet checkout when `DEMO_MODE=false`; `{projectId, amountXlm}` | `Bearer ADMIN_API_TOKEN` |
 | POST | `/api/webhooks/velo` | Raw signed Velo webhook verifier; currently logs verified receipt but **does not reconcile or mark paid** | Velo signature |
-| POST | `/api/milestones/:projectId/:milestoneId/approve` | Approves submitted milestone, runs agent decision and Noir check/authorize when configured | `Bearer ADMIN_API_TOKEN` |
 
 ## Current limitations (important)
-- These route names and payloads remain the **implemented legacy milestone demonstration**, not the target cutoff/run API. A preview's `pay` decision is not boss approval of a payroll run and must not be treated as compensation advice.
-- `POST /api/milestones/:projectId/:milestoneId/approve` is **not a safe owner-approved run endpoint**: it approves a submitted fixture milestone, rather than an immutable cutoff recipient/amount snapshot. An admin bearer token is not employee-scoped access or a durable owner approval record.
-- Approval relies on **sample JSON persistence**, does not verify deliverable/GitHub evidence, lacks database transaction locking and merchant wallet onboarding, and is not ready for concurrent payout requests.
-- The protected approval workflow reserves a `PENDING_RECONCILIATION` marker before sending; this is not transactional per-item deduplication or an implemented run ledger. Reconcile chain before retry; unknown does not mean failed.
-- Merchant wallet still needs its `claim` signature; no claim API is included. Authorization is not a confirmed claim, bank transfer or PHP wage payment.
+- HTTP routes remain a **fictional milestone preview and separate Velo collection demonstration**, not a cutoff/run API. A preview's `pay` decision is not boss approval of a payroll run or compensation advice; shared eligibility and already-submitted `paymentHash` checks remain unchanged.
+- `POST /api/milestones/:projectId/:milestoneId/approve` has been **removed and returns 404**. There is no replacement HTTP Noir payout, setup or claim route. An admin bearer token is not employee-scoped access or durable owner consent.
+- Noir execution is isolated in the local CLI, not JSON fixture mutation or HTTP requests. Exact owner-signed single-item consent and SQLite cumulative-device reservations do not provide authenticated cutoff approval, recipient onboarding or multiuser payroll safety.
+- The local merchant signer must separately collect pending funds with `claim`; authorization is not a confirmed claim, bank transfer or PHP wage payment.
 - Signed Velo webhook verification is implemented, but **deduplication, durable reconciliation and invoice-state updates are not implemented**.
 - Client PHP invoice values are independent from selected XLM Testnet checkout amount. Velo collection does not fund Noir escrow or employee bank payouts.
 - No Proyekto import/link, bank export/API, cutoff hours review, employee statements/discrepancy access, immutable run approval or recipient-level run reconciliation contract is implemented.
@@ -30,9 +28,19 @@ Design these separately from the existing routes; no new endpoint names or paylo
 - Owner approval/release of an immutable run revision binding each exact recipient, amount, currency/asset and item identity. Any change invalidates that approval and requires reapproval.
 - Approved-item-only execution with transactional deduplication and cumulative run reservations, recipient verification/allowlisting, durable submission identity and per-item reconciliation (including partial failure and unknown outcomes). Never blindly retry an uncertain transfer.
 - Bank-file export only for a chosen corporate bank's verified supported format and approval workflow; API capability must be verified before design commits. No bank UI/OTP automation or promise of one OTP.
-- A separately scoped pre-funded Noir Testnet path: owner device/policy setup, agent check/authorize for the exact approved item, and independently observed merchant claim. Noir policy does not supply a recipient allowlist or cumulative cutoff cap; both remain application requirements.
+- Any future authenticated web Noir flow must retain separate owner setup/consent, constrained agent authorization and merchant claim. The existing local single-item experiment is not such an API. Noir policy supplies neither a merchant allowlist nor a cumulative cutoff cap.
 
-Client acceptance or client invoice payment must not automatically gate hours-based employee pay. Compensation follows applicable agreements/legal obligations; fixed-fee milestone contracting is a distinct basis. See [software target](SOFTWARE.md) and [integration limits and sources](INTEGRATIONS.md). None of these pending contracts is supplied by reusing the legacy milestone approval route.
+Client acceptance or client invoice payment must not automatically gate hours-based employee pay. Compensation follows applicable agreements/legal obligations; fixed-fee milestone contracting is a distinct basis. See [software target](SOFTWARE.md) and [integration limits and sources](INTEGRATIONS.md). The removed milestone approval route must not be restored as a shortcut to these contracts.
+
+## Controlled local Noir tooling — not HTTP
+Run `npm run noir -- <command>` from the repository. Supported commands: `plan`, `doctor`, `approve`, `setup --step device|policy|fund`, `check`, `authorize`, `claim`, `reconcile`, `evidence`; exact flags and separate role-shell instructions are in [SETUP](../SETUP.md).
+
+- Fixed native-XLM Testnet configuration and official Noir SDK 0.3.0 calls only; no custom contracts or Mainnet. Installed Stellar SDK 16.0.1 handles signing/transaction inspection.
+- `approve` signs the exact normalized manifest/configuration digest locally. Live setup/authorize/claim require `--live`, exact digest confirmation, valid local consent, independent contract attestation, verified merchant allowlist and the appropriate privately inherited role secret. No secrets in arguments, chat, browser or server `.env`.
+- Repository-root `.data/noir-testnet.sqlite` serializes validation/reservations and persists transaction hash/nonce before broadcast. `--db` explicitly selects a journal; no deduplication across copies/deletion. Prepared/unknown/succeeded authorization reservations count against the cumulative-device budget. Recorded operations have no retry/reset, including failed ones.
+- `check` reads pending merchant stroops even after expiry. `claim --pending-stroops` confirms the positive aggregate to collect **all** merchant/token pending funds; it is not one claim per item. Collection of already-authorized funds and reconciliation remain available after approval expiry.
+- `reconcile` looks up recorded hashes without signing/sending; `evidence` emits local JSON distinguishing recorded identities, confirmed transactions and matching authorization/claim events, with genuine Testnet explorer URLs. Missing event evidence remains incomplete.
+- Exercised checks cover installed SDK/source agreement, 20 focused tests, real-SDK synthetic-transport persistence/timeout-restart behavior, actual CLI consent/evidence/gates and read-only Testnet `doctor` (`contractsAttested:false`). **Live authorization/claim remains unverified.** SDK/repository agreement does not resolve the earlier form-ID discrepancy; independent organizer/deployment verification is still required.
 
 ## Example local commands
 ```bash
