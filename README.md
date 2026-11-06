@@ -10,6 +10,7 @@ From verified deliverables to streamlined payouts. One platform for teams, clien
 
 **Live website:** `TBD — public deployment required`  
 **Demo video (2 min):** `TBD`  
+**Pitch deck:** `TBD`  
 **Team:** [JCarloZ24 (JC)](https://github.com/JCarloZ24) (UI/UX + Frontend), [Stobeeney](https://github.com/Stobeeney) (API Integration), [aidantiu](https://github.com/aidantiu) (Integration + Deployment), [JoshuaHM-p4](https://github.com/JoshuaHM-p4) (Founder/Fullstack + Noir Setup, Development & Testing). **Discord handles:** TBD (do not guess).
 
 ## Problem
@@ -24,6 +25,22 @@ Snapp targets cutoff preparation, manual owner review, employee pay transparency
 
 **Current status:** fictional milestone previews and Velo adapters remain, alongside separate controlled **local Noir Testnet tooling**. The local CLI supports exact owner-signed single-item consent, owner setup, agent authorization, merchant claim, SQLite reconciliation and **Snapp Autopilot**: a Payment Eligibility Engine (deterministic rules) plus a Payout Risk & Review Agent (Jev) that decides when an owner-approved item is executed through Noir. It is not an authenticated payroll workflow. Proyekto integration, cutoff review, client-evaluation history, employee statements, approved pay runs, RBAC and bank payouts are **not implemented**. Live Testnet authorization/claim proof remains unverified.
 
+### Target workflow
+1. Reference Proyekto projects, time entries and versioned deliverables. Record client comments, revision requests and acceptance against the evaluated version. Integration access still needs verification.
+2. Prepare the cutoff with submitted hours, agreed rates and output context. The owner manually reviews and approves hours per employee/project.
+3. Give each employee their own calculation: submitted/approved hours, rates, explained adjustments, expected pay and a discrepancy channel.
+4. Owner approves an immutable pay-run version with exact verified recipients, amounts, currency/asset and total. Changes require reapproval.
+5. Execute only approved items and reconcile each recipient independently. Never replay an entire partly paid run or blindly retry an uncertain transfer.
+
+Client acceptance informs work review; it does **not** automatically determine whether hours-based wages are owed. Follow the actual compensation agreement and applicable law. Client invoice payment is separate from employee pay eligibility.
+
+### Company path versus hackathon path
+- **Company adoption:** verify the chosen bank's existing bulk-disbursement facility first, then generate its supported upload file from an approved run. Bank integration is not implemented. Preserve bank-native authorization; do not automate OTP entry or promise one authorization for every bank.
+- **Hackathon demonstration:** use separate local tooling for an exact owner-approved Testnet experiment, not a server pay-run endpoint. Owner signs consent and device/policy/funding steps; agent checks eligibility then prepares/signs/submits the SDK `authorize` operation; merchant separately signs `claim`. Local allowlisting and cumulative-device reservations are not a cutoff/run model. Authorization is not receipt.
+- **Optional client collections:** Velo checkout and signed-event verification remain separate from pay-run release and Noir funding; event dedupe and retrieval-based reconciliation are implemented server-side; a real Velo project run is still pending. Velo's current [upstream scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope) is Testnet only, with no Mainnet or external settlement support. Neither integration sends PHP to employee bank accounts.
+
+The differentiation to validate is work-to-payment traceability, not novel payroll rails. [BPI BizLink](https://www.bpi.com.ph/institutional-banking/cashflow-management/bizlink) already documents transaction-file upload and approval controls; [Sprout Payroll](https://sprout.ph/product/payroll-management/) documents timekeeping, employee payslips and bank-disbursement file generation. Company eligibility, costs and bank coverage need verification.
+
 ## How the agentic payment works
 The owner decides **how much** and **to whom**; the agent decides **whether and when** that approved item is executed. No human clicks "pay" in the autopilot path.
 
@@ -35,23 +52,38 @@ The owner decides **how much** and **to whom**; the agent decides **whether and 
 
 Commands: `assess` (read-only verdict, no signer) and `autopilot --live --confirm <digest> [--every <seconds>]` (verdict + execution, re-evaluating deferred items on an interval). `SNAPP_AUTOPILOT_DISABLED=true` stops new executions. Thresholds are untuned starting points, not validated safety guarantees; a real Jev call requires `TYPESAFE_AI_API_KEY` or `AI_GATEWAY_API_KEY`. Live Jev answers were observed through Vercel AI Gateway on three sample reviews (accepted → EXECUTE, open revision → DEFER, dispute → ESCALATE); Vercel requires a card on file before the gateway serves requests. Live autopilot execution on Testnet still needs the owner setup prerequisites below.
 
-## Target workflow
-1. Reference Proyekto projects, time entries and versioned deliverables. Record client comments, revision requests and acceptance against the evaluated version. Integration access still needs verification.
-2. Prepare the cutoff with submitted hours, agreed rates and output context. The owner manually reviews and approves hours per employee/project.
-3. Give each employee their own calculation: submitted/approved hours, rates, explained adjustments, expected pay and a discrepancy channel.
-4. Owner approves an immutable pay-run version with exact verified recipients, amounts, currency/asset and total. Changes require reapproval.
-5. Execute only approved items and reconcile each recipient independently. Never replay an entire partly paid run or blindly retry an uncertain transfer.
+## Architecture
+**Current implementation** (apps, agent, Noir contracts, Velo):
+```mermaid
+flowchart LR
+  subgraph web[apps/web]
+    UI[React dashboard: fixture projects, read-only preview]
+  end
+  subgraph server[apps/server]
+    API[Express API]
+    WH[/api/webhooks/velo]
+    CS[(collections.sqlite)]
+  end
+  subgraph agent[packages/agent]
+    ELIG[Payment Eligibility Engine]
+    JEV[Payout Risk and Review Agent: Jev]
+    CLI[Noir CLI: approve, setup, autopilot, claim, reconcile]
+    JR[(noir-testnet.sqlite journal)]
+  end
+  UI --> API
+  API --> ELIG
+  API -->|checkout| Velo[Velo Testnet]
+  Velo -->|signed webhook| WH --> CS
+  WH -->|paymentIntents.retrieve| Velo
+  Owner([Owner shell]) -->|sign manifest, setup| CLI
+  CLI --> ELIG --> JEV --> CLI
+  CLI --> JR
+  CLI -->|Noir SDK: registerDevice, registerAgent, fundEscrow, authorize, claim| Noir[Noir Testnet contracts]
+  Merchant([Merchant shell]) -->|claim| CLI
+```
+Velo and Noir never call each other; client collections do not fund escrow or release pay. The agent runs in the owner-controlled CLI, not the browser; no key is held by `apps/web`.
 
-Client acceptance informs work review; it does **not** automatically determine whether hours-based wages are owed. Follow the actual compensation agreement and applicable law. Client invoice payment is separate from employee pay eligibility.
-
-## Company path versus hackathon path
-- **Company adoption:** verify the chosen bank's existing bulk-disbursement facility first, then generate its supported upload file from an approved run. Bank integration is not implemented. Preserve bank-native authorization; do not automate OTP entry or promise one authorization for every bank.
-- **Hackathon demonstration:** use separate local tooling for an exact owner-approved Testnet experiment, not a server pay-run endpoint. Owner signs consent and device/policy/funding steps; agent checks eligibility then prepares/signs/submits the SDK `authorize` operation; merchant separately signs `claim`. Local allowlisting and cumulative-device reservations are not a cutoff/run model. Authorization is not receipt.
-- **Optional client collections:** Velo checkout and signed-event verification remain separate from pay-run release and Noir funding; durable event reconciliation is still missing. Velo's current [upstream scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope) is Testnet only, with no Mainnet or external settlement support. Neither integration sends PHP to employee bank accounts.
-
-The differentiation to validate is work-to-payment traceability, not novel payroll rails. [BPI BizLink](https://www.bpi.com.ph/institutional-banking/cashflow-management/bizlink) already documents transaction-file upload and approval controls; [Sprout Payroll](https://sprout.ph/product/payroll-management/) documents timekeeping, employee payslips and bank-disbursement file generation. Company eligibility, costs and bank coverage need verification.
-
-## Target architecture
+**Target product flow** (not yet implemented):
 ```mermaid
 flowchart LR
   Proyekto[Proyekto work and client feedback] -.->|Integration pending| Run[Cutoff preparation]
@@ -63,7 +95,7 @@ flowchart LR
   Bank -.-> Reconcile[Per-recipient reconciliation]
   Noir --> Reconcile
 ```
-This is the target, not the current implementation. See [architecture notes](docs/ARCHITECTURE.md), [PRD](PRD.md), [current API](docs/API.md) and [integration guide](docs/INTEGRATIONS.md).
+The second diagram is the target, not the current implementation. See [architecture notes](docs/ARCHITECTURE.md), [PRD](PRD.md), [current API](docs/API.md) and [integration guide](docs/INTEGRATIONS.md).
 
 ## Noir integration
 - Pinned and installed: `@noirx402/agent-sdk@0.3.0` and `@stellar/stellar-sdk@16.0.1`. The installed SDK was compared with source commit `704f701a017b0b13f79898d2597df8c11fd4fa94`.
@@ -120,7 +152,7 @@ scripts/              Local smoke check
 ## Screenshots
 **TBD:** owner cutoff review, employee calculation/discrepancy view, exact-run approval, per-recipient status, separate Velo collection, and genuine Noir authorization/claim proof. These are target screenshots, not claims that the screens exist. Do not use fake receipts.
 
-## Implementation priorities
+## What's next
 Build the Proyekto-linked cutoff/review model, versioned client evaluations, private employee statements and immutable owner approval first. Add authenticated, durable per-item execution and reconciliation before exposing money-moving controls. Demonstrate owner-approved Testnet execution and merchant claim through Noir; demonstrate Velo collection separately, not as automatic payroll funding.
 
 For company use, evaluate supported bank bulk-disbursement and existing payroll tools before building a custom bank API. Actual bank execution and production payroll compliance remain outside the Testnet hackathon scope. Brand styling stays on hold until Prodigitality approves it.
