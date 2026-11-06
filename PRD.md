@@ -159,7 +159,7 @@ Complete means the actual source implements the stated demonstration, required U
 - Verify Proyekto's integration access, compensation arrangements and the company's bank facility before fixing those contracts.
 - [Velo's upstream SDK scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope) is Testnet only, without Mainnet or external settlement support. Noir is not a bank payout service.
 - Noir enforces asset, per-payment cap and expiry, not recipient allowlists or cumulative cutoff budgets; those need app-side enforcement.
-- Brand design remains **on hold** pending approved Prodigitality assets.
+- Brand design was **approved 2026-11-06** ([DESIGN](docs/DESIGN.md)). Production screens migrate from the neutral scaffold per screen; brand asset exports remain pending.
 - Local signing uses private inherited role-specific secrets, not server `.env`, browser, arguments or chat. Owner, agent and merchant must use separate manually funded Testnet accounts and consent; no production keys. Live commands require `--live`, exact digest confirmation and independently justified contract attestation.
 - Contract IDs differ between the earlier form and handbook/repository references. Verification remains unresolved; see [INTEGRATIONS](docs/INTEGRATIONS.md).
 

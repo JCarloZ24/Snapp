@@ -4,7 +4,7 @@
 Version 0.2 · November 6, 2026 · Logo direction C ("Slip S") selected
 Team: Stobeeney (Designer), JCarloZ24 (Developer), aidantiu (Developer), JoshuaHM-p4 (Founder/Fullstack)
 
-> **Status:** Draft for team use. Per the README, brand styling stays on hold for company adoption until Prodigitality approves it. Keep everything in tokens and the `SnappLogo` component, so a change costs minutes.
+> **Status:** Visual system approved 2026-11-06 ([DECISIONS](docs/DECISIONS.md#visual-system-approved-2026-11-06)). [DESIGN.md](docs/DESIGN.md) is the implementation spec, and where it records a later owner decision, it wins. Keep everything in tokens and the `SnappLogo` component, so a change costs minutes.
 
 ---
 
@@ -143,7 +143,7 @@ Reference sheet: [Final logo, Slip S v1](docs/brand/snapp_logo_final_slip_s_v1.s
 - Don't put Volt on the top arc or swap the arc colors.
 - Don't use Ultraviolet anywhere in the logo, since it's reserved for the agent.
 - Don't rotate, mirror, outline, stretch, or add gradients, glow or shadows.
-- Don't animate the logo continuously. The sting plays once.
+- Don't animate the logo continuously. The sting plays once. *(Owner exception, 2026-11-06: loading views may loop the original two arcs while work is pending; reduced motion shows the static mark. See [DECISIONS](docs/DECISIONS.md) and [DESIGN §8](docs/DESIGN.md#8-logo-and-sound).)*
 - Don't place it on a busy photo without a scrim.
 - In running text the name is **Snapp**. Never write "SnApp," "SNAPP" in a sentence, or "Snap."
 
@@ -424,7 +424,7 @@ When `prefers-reduced-motion: reduce` is set, remove echo rings, travel and spri
 
 ### Sound and haptics
 
-- **Approval sound:** an air-suction swell that rises for the length of the hold (preparation), then one crisp snap of about 60 ms when the hold completes (release), with a short reverb tail of about 1 s (resonance). Releasing early drains the suction in 60 ms with no snap. It's synthesized in code (`apps/web/src/lib/snapSound.ts`), so there's no sample to record or license. **It is off by default**, and the user can turn it on in Settings.
+- **Approval sound:** an air-suction swell that rises for the length of the hold (preparation), then one crisp snap of about 60 ms when the hold completes (release), with a short reverb tail of about 1 s (resonance). Releasing early drains the suction in 60 ms with no snap. It's synthesized in code (`apps/web/src/lib/snapSound.ts`), so there's no sample to record or license. **It is off by default**, and the user can turn it on in Settings. *(Superseded for the logo snap, 2026-11-06: the default is Vinrax's CC0 finger-snap recording, dry and trimmed to ~98.8 ms; synthesis is a labeled fallback. Preparation and cancellation stay synthetic. See [DESIGN §8](docs/DESIGN.md#8-logo-and-sound).)*
 - **Haptics (mobile):** a light impact on the release only.
 - Sound and haptics never carry information alone; the visual state always confirms.
 
@@ -721,5 +721,5 @@ export const ease = { snap: [0.16, 1, 0.3, 1], press: [0.5, 0, 0.75, 0], standar
 
 ### Open decisions
 
-1. **Hold duration:** tune the 750 ms hold in the dev-only playground at `/dev/hold` (run `npm run dev`). It has a 500–1000 ms slider and counts approvals, early releases and accidental triggers. Test it with mouse, touch and keyboard, then lock the value into `--dur-hold`.
+1. **Hold duration: resolved 2026-11-06. 750 ms confirmed and locked in `--dur-hold`.** Original note: tune the 750 ms hold in the dev-only playground at `/dev/hold` (run `npm run dev`). It has a 500–1000 ms slider and counts approvals, early releases and accidental triggers. Test it with mouse, touch and keyboard, then lock the value into `--dur-hold`.
 2. **Snap sound:** tune the synthesized suction, snap and reverb by ear in the same playground. Fallback if it sounds too synthetic: record a real snap on a phone and trim it in Audacity.

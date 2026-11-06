@@ -2,10 +2,10 @@
 
 Draft visual specimens are available at `/dev/library` when running the web development server. See [Design library](DESIGN_LIBRARY.md) for scope, local interactions and verification limits. They do not change the pending status of the product workflows below.
 
-Custom controls now live in `apps/web/src/components/ui/`: `SnappSelect`, `SnappDatePicker`, `SnappTextField`, `SnappSwitch`, `SnappSlider`, `SnappTabs`, and `SnappToastRegion`. Use their theme provider for portalled menus/calendars. The review/feedback examples validate before local simulated submission; future server endpoints must enforce their own authoritative contracts. See the [Impeccable audit](DESIGN_LIBRARY_AUDIT.md).
+[DESIGN.md](DESIGN.md) is the approved frontend foundation (2026-11-06): tokens, component state contracts, validation, reporting, motion, sound, source map and the gap inventory. Custom controls now live in `apps/web/src/components/ui/`: `SnappSelect`, `SnappDatePicker`, `SnappDateRangePicker`, `SnappTextField`, `SnappSwitch`, `SnappSlider`, `SnappTabs`, `SnappToastRegion` and `SnappLoading`. Use their theme provider for portalled menus/calendars. The review/feedback examples validate before local simulated submission; future server endpoints must enforce their own authoritative contracts. See the [Impeccable audit](DESIGN_LIBRARY_AUDIT.md).
 
 ## Principles
-A practical owner-approved cutoff preparation and payment-transparency UI, connected by references to Proyekto rather than replacing its PM/invoicing features. Preserve manual owner judgment of hours and final release authority. **Visual brand direction is deferred** — see DESIGN.md.
+A practical owner-approved cutoff preparation and payment-transparency UI, connected by references to Proyekto rather than replacing its PM/invoicing features. Preserve manual owner judgment of hours and final release authority. **Visual system approved 2026-11-06**: see DESIGN.md. Production screens adopt it one at a time and keep neutral styling until migrated.
 
 ## Target component inventory — pending, not current implementation
 Names and locations describe proposed contracts, not working components. All new cutoff, Proyekto import, client evaluation, employee statements, run approval and bank capabilities are pending.
@@ -40,7 +40,7 @@ Names and locations describe proposed contracts, not working components. All new
 `Preview` displays sample/proposed decisions without transactions and must not masquerade as implemented pay-run approval. `Real testnet` requires actual transaction evidence; authorization alone does not prove a merchant claim. At-most-once approved-item execution records and immutable run snapshots are pending, not guarantees of the scaffold. If an API is unavailable, show an error with setup hint; never substitute artificial success.
 
 ## Handoff process
-JC ([JCarloZ24](https://github.com/JCarloZ24)) owns UI/UX and frontend, including approved design tokens and reusable components; pages consume those components rather than duplicating raw styles. Stobeeney owns API contracts/integration and coordinates page data wiring with JC. Aidantiu owns end-to-end integration and deployment. Founder approves design PRs; visual branding remains on hold until approved. Split UI changes by page when useful to minimize merge conflicts.
+JC ([JCarloZ24](https://github.com/JCarloZ24)) owns UI/UX and frontend, including approved design tokens and reusable components; pages consume those components rather than duplicating raw styles. Stobeeney owns API contracts/integration and coordinates page data wiring with JC. Aidantiu owns end-to-end integration and deployment. Founder approves design PRs. The visual system was approved on 2026-11-06 (see DESIGN.md). Split UI changes by page when useful to minimize merge conflicts.
 
 ## Integration scope references
 - [Velo upstream release scope](https://github.com/Velo-Ecosystem-Collection/Velo/blob/main/packages/velo-sdk/README.md#release-scope)

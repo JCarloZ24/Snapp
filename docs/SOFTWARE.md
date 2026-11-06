@@ -9,7 +9,7 @@ Company cutoffs are **1–15** and **16–end-of-month**. The boss retains manua
 | Layer | Choice | Responsibility |
 | --- | --- | --- |
 | Web | React 18 + TypeScript + Vite | Client/developer/admin UI, no signer secrets |
-| UI | Tailwind CSS 3 + neutral temporary CSS | JC owns UI/UX/frontend and proposes brand tokens for approval; visual branding remains on hold |
+| UI | Tailwind CSS 3 + neutral temporary CSS | JC owns UI/UX/frontend; the Snapp visual system ([DESIGN](DESIGN.md)) was approved 2026-11-06, and screens migrate from the neutral CSS one at a time |
 | Server | Node.js 22.23.4+ + Express 4 + TypeScript/tsx | HTTP API, Velo webhook, authentication boundary |
 | Business rules / local execution | `packages/agent` TypeScript | Unchanged deterministic preview eligibility plus local Noir consent/setup/authorize/claim/reconcile CLI |
 | Shared models | `packages/shared` TypeScript | Types and response contracts, no credentials |

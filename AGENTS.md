@@ -7,7 +7,7 @@
 - Product tagline: **Pay fast, in a snap.** Positioning: **From verified deliverables to streamlined payouts. One platform for teams, clients, and business owners.**
 - The owner manually reviews hours per employee/project for 1–15 and 16–end-of-month cutoffs and approves exact recipients and amounts. The agent cannot set wages, approve hours or modify an approved run; material changes require reapproval.
 - Client comments, revisions and acceptance belong to versioned deliverable evidence. Client acceptance or invoice collection must not automatically gate hours-based employee pay; actual compensation agreements and legal obligations govern.
-- **Do not** invent brand styles. Prodigitality design remains on hold; use neutral UI until `docs/DESIGN.md` is approved.
+- **Do not** invent brand styles. The Snapp visual system in `docs/DESIGN.md` was approved on 2026-11-06. Use only its tokens and components. Production screens migrate one at a time under its §14 acceptance checklist and keep the neutral scaffold until migrated.
 - Every money-moving implementation is **Stellar Testnet only**. There are two independent flows (Velo client checkout, Noir delegated payout).
 - Do not assume Velo receipt is escrow funding or Noir authorize is merchant claimed payout.
 - No money transfer without a verified recipient, valid owner-approved payment item, applicable agreement conditions, payment limits and durable audit/idempotency records. Enforce recipient allowlists and cumulative run limits app-side; Noir's policy does not supply them.

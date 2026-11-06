@@ -23,8 +23,8 @@ A single public repository and one install support collaboration and submission.
 ## Transactional storage before exposed payment execution
 The JSON fixture supports zero-credential demo startup, not concurrent payment safety. Durable transactions, unique obligation/item identities, serialized execution and recoverable per-recipient reconciliation are mandatory before payout-capable multiuser use. Unknown outcomes require reconciliation, not a fresh send with a new nonce.
 
-## Brand identity remains deferred
-The owner has not approved Prodigitality brand assets or visual tokens. Use neutral temporary UI until review.
+## Brand identity — approved 2026-11-06
+Deferred on 2026-11-05; approved on 2026-11-06. See [Visual system approved](#visual-system-approved-2026-11-06). The approved system is specified in [DESIGN.md](DESIGN.md). Production screens migrate from the neutral scaffold one at a time under its per-screen acceptance checklist.
 
 ## Unresolved contract baseline
 Pinned/installed Noir SDK 0.3.0 agrees with source commit `704f701a017b0b13f79898d2597df8c11fd4fa94` and the repository contract table. A public RPC read confirmed the Testnet passphrase. These establish SDK/configuration agreement, **not resolution of the earlier form-ID discrepancy** or organizer/deployment attestation. Independently verify before setting `NOIR_TESTNET_CONTRACTS_CONFIRMED=true` or sending. Velo remains unchanged; current upstream stable documentation does not upgrade its alpha declaration. See [INTEGRATIONS](INTEGRATIONS.md); no live authorization/claim, bank or Proyekto validation is implied.
@@ -67,3 +67,17 @@ Per owner direction, the draft library extends Volt into a report-positive alias
 ### Recorded logo snap and sound library (2026-11-06)
 
 Owner feedback supersedes the draft synthesis-only direction for the library logo: use Vinrax's CC0 real finger snap, with local provenance and original asset, as the default. Keep the synthetic version explicitly identified as fallback/comparison. The recording is decoded before starting the logo and scheduled at its 310 ms release, without added synthesis/reverb. Audio remains opt-in, cancellable, and silent for loading loops and data updates. Sound values and asset metadata are exported from `apps/web/src/lib/soundTokens.ts` and downloadable from the library. No payment state is inferred from playing audio.
+
+
+### Design library as frontend foundation (2026-11-06)
+
+[DESIGN.md](DESIGN.md) specifies the implemented `/dev/library` as the frontend foundation. It covers tokens, component states, validation, reporting, motion, logo and sound, accessibility, the source map, adoption order and a prioritized gap inventory. The CSS 3D studies are not WebGL.
+
+### Visual system approved (2026-11-06)
+
+Founder/company approval (DESIGN gap G-00) was relayed by JC (JCarloZ24) in the design session on 2026-11-06. It covers:
+1. **The visual system is approved:** the palette, semantic aliases (including the report colors), typography, logo usage, motion and sound direction in the Ink and Paper themes, as specified in DESIGN.md. This replaces the 2026-11-05 deferral.
+2. **Hold duration `--dur-hold` = 750 ms is confirmed.** This closes SNAPP_BRAND §14 open decision 1.
+3. **The unbuilt brand-guide animations are kept:** split-flap status flip, snap-to-order, agent tempo ticks, per-recipient resonance, 60 ms amount crossfade, and the "crisp" and "snap" springs. They remain planned work (G-12), not implemented behavior.
+
+The approval opens production adoption but does not perform it. Screens migrate individually after the reusable infrastructure gaps (G-01 to G-04) and must pass DESIGN §14 per screen. Approval does not change any product, payment or Testnet boundary, and does not turn fictional library specimens into working features.

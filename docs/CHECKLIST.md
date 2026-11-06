@@ -37,7 +37,7 @@ All cutoff, Proyekto, client-evaluation, employee statement, approved **pay-run*
 
 ## C. UX and persistence — pending
 - [ ] Wireframes/components/routes for the priority workflow; current scaffold previews remain explicitly labeled
-- [ ] Founder approves Prodigitality brand tokens/design (currently on hold); retain neutral grayscale until approved
+- [x] Founder approves brand tokens/design. Approved 2026-11-06 ([DESIGN](DESIGN.md)); screens migrate from neutral grayscale one at a time.
 - [ ] Multiuser payroll database/migrations and login/RBAC for owner, employee and client; local experiment SQLite is not this system
 - [ ] Versioned compensation terms, calculations, approval snapshots, discrepancies and audit records
 - [ ] Connect UI to validated API with loading/empty/error states; no fabricated successful states
@@ -124,9 +124,11 @@ Paste URLs only after real proof exists: live site `TBD`, repo `TBD`, demo `TBD`
 # Draft design library — 2026-11-06
 
 - [x] Implement categorized tokens, component/workflow specimens, motion and CSS 3D studies at `/dev/library`.
-- [x] Web typecheck and production build pass; root test command passes.
+- [x] Web typecheck and production build pass. (Root `npm test` currently fails on Windows in `packages/agent` journal-permission tests, unrelated to the library; see [DESIGN.md §15](DESIGN.md#15-recorded-discrepancies).)
 - [x] Add custom controls, grapheme/date/cutoff validation, Paper ripple fix and 31 frontend behavior/validation tests.
 - [x] Run Impeccable source and both-theme rendered scan; document findings, fixes and intentional brand exceptions in [the audit](DESIGN_LIBRARY_AUDIT.md).
 - [ ] Complete browser visual, keyboard and touch QA; automation browser unavailable in this session.
-- [ ] Resolve existing server webhook Buffer/string mismatch before claiming a passing full-repository build.
-- [ ] Obtain company brand approval before product adoption. See [design library handoff](DESIGN_LIBRARY.md).
+- [x] Resolve existing server webhook Buffer/string mismatch (fixed upstream; root typecheck/build pass 2026-11-06).
+- [x] Document the library as the frontend foundation with a prioritized gap inventory in [DESIGN.md](DESIGN.md#13-implementation-status-and-gaps).
+- [x] Obtain company brand approval before product adoption. Approved 2026-11-06, with the 750 ms hold confirmed and the unbuilt brand animations kept. See [DESIGN.md §14](DESIGN.md#14-approval-and-acceptance).
+- [ ] Migrate production screens per DESIGN §12–14, starting with infrastructure gaps G-01 to G-04.

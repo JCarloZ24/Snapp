@@ -156,7 +156,7 @@ scripts/              Local smoke check
 ## What's next
 Build the Proyekto-linked cutoff/review model, versioned client evaluations, private employee statements and immutable owner approval first. Add authenticated, durable per-item execution and reconciliation before exposing money-moving controls. Demonstrate owner-approved Testnet execution and merchant claim through Noir; demonstrate Velo collection separately, not as automatic payroll funding.
 
-For company use, evaluate supported bank bulk-disbursement and existing payroll tools before building a custom bank API. Actual bank execution and production payroll compliance remain outside the Testnet hackathon scope. Brand styling stays on hold until Prodigitality approves it.
+For company use, evaluate supported bank bulk-disbursement and existing payroll tools before building a custom bank API. Actual bank execution and production payroll compliance remain outside the Testnet hackathon scope. The Snapp visual system was approved on 2026-11-06 (see docs/DESIGN.md); production screens adopt it one at a time.
 
 ## Credits
 Official project repos: [Noir](https://github.com/noirx402/noir) and [Velo](https://github.com/Velo-Ecosystem-Collection/Velo). SDK integration patterns follow the *Velo x Noir Agentic Payment Hackathon — Builder Handbook*, updated Nov 5, 2026. Uses React, Vite, Tailwind, Express, TypeScript and Stellar. Concept adapted for [Prodigitality](https://prodigitality.net/services). All code in this starter is a fresh scaffold, not a clone of either vendor repo.

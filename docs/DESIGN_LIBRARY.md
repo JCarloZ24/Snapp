@@ -1,6 +1,8 @@
 # Snapp design library
 
-Draft review implementation based on `SNAPP_BRAND.md` v0.2 and the supplied Slip S v1 SVG. This is not company brand approval or a working payroll workflow.
+Draft review implementation based on `SNAPP_BRAND.md` v0.2 and the supplied Slip S v1 SVG. The visual system was approved on 2026-11-06 (see [DECISIONS](DECISIONS.md#visual-system-approved-2026-11-06)). The library is still not a working payroll workflow.
+
+The actionable specification, component contracts and prioritized gap inventory now live in [DESIGN.md](DESIGN.md), which specifies this library as the approved frontend foundation. Where this file and DESIGN.md differ, DESIGN.md reflects the later source check (2026-11-06).
 
 ## Run
 
@@ -45,10 +47,10 @@ See [Impeccable audit](DESIGN_LIBRARY_AUDIT.md) for the review, raw detector sna
 - Web TypeScript check: passed.
 - Web production build: passed; development library code is excluded.
 - Web behavioral suite: 47 tests covering validation, custom-control behavior and library integration. Root test command also runs the existing agent test; the server runner reports zero tests.
-- Root `npm run typecheck` and `npm run build`: blocked by existing `apps/server/src/payments.ts` Buffer-to-string type mismatch in the webhook adapter. No payment adapter change was made.
+- Root `npm run typecheck` and `npm run build`: at the time, blocked by the `apps/server/src/payments.ts` Buffer-to-string mismatch. **Update 2026-11-06:** resolved upstream by the Velo reconciliation change; root typecheck and build now pass. See [DESIGN.md §15–16](DESIGN.md#15-recorded-discrepancies).
 - Preview route and Vite-transformed library module: HTTP 200.
 - Impeccable produced rendered scan results for Ink and Paper at 1280 × 800. Final visual/interaction QA is not completed; browser automation was unavailable. The scan had warnings/advisories, not a clean certification.
-- Installed host Node v24.10.0 is below the repository's supported v24.22.1 minimum. npm also reported two moderate audit findings; dependency remediation is outside this UI patch.
+- Installed host Node v24.10.0 is below the repository's supported v24.22.1 minimum. npm also reported two moderate audit findings at the time; the 2026-11-06 re-check reports three moderate and one high production finding (see DESIGN.md gap G-23). Dependency remediation is outside this UI patch.
 
 ## Remaining manual acceptance
 
@@ -56,6 +58,6 @@ See [Impeccable audit](DESIGN_LIBRARY_AUDIT.md) for the review, raw detector sna
 - [ ] Keyboard navigation, dialog focus return, hold cancellation and touch testing.
 - [ ] Confirm search, clipboard, CSS download and native reduced-motion behavior in a browser.
 - [ ] Review every motion/3D study with the design owner and founder.
-- [ ] Founder/company brand approval before adopting these styles in product screens.
+- [x] Founder/company brand approval before adopting these styles in product screens (approved 2026-11-06).
 
 Skills used: Sites (local repository workflow), skill-installer, Impeccable (audit/harden/polish), and computer-use (attempted browser inspection). Impeccable is installed globally for this user and available as a named skill on the next turn. No publication or Figma file was created.

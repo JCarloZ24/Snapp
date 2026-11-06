@@ -66,7 +66,7 @@ Example review dates are explicitly bounded to November 1–December 15, 2026; t
 - Exercise dropdowns, date segments/calendar, sliders, toast focus and native dialog with a real keyboard and screen reader.
 - Exercise hold interruptions and sliders with synthesized touch and a physical device. jsdom pointer events are not touch evidence.
 - Verify clipboard/export downloads in the browser and review motion with the designer/founder.
-- Resolve the existing server webhook type mismatch and use a supported Node version for complete-repository validation.
+- Use a supported Node version for complete-repository validation. (The server webhook type mismatch was resolved upstream; root typecheck/build pass as of 2026-11-06. See [DESIGN.md §15](DESIGN.md#15-recorded-discrepancies).)
 
 Native browser discovery returned no browser, and the Windows helper returned a missing native-pipe error. Therefore no human-visible screenshot review, real-browser interaction matrix or accessibility conformance claim is recorded. This implementation is a tested component foundation for development, not a production or “perfect quality” certification.
 
